@@ -1,4 +1,4 @@
-import { viewProps } from '../Types/props';
+import { viewProps } from '../../Types/props';
 
 
 class View {

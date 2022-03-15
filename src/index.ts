@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import './index.scss';
 import { Presenter } from './Components/Presenter/Presenter';
-import { sliderState } from './Components/Types/state';
+import { sliderState } from './Types/state';
 
 
 class jqSlider {

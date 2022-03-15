@@ -1,5 +1,5 @@
-import { modelProps } from '../Types/props';
-import { sliderState } from '../Types/state';
+import { modelProps } from '../../Types/props';
+import { sliderState } from '../../Types/state';
 
 const initialState: sliderState = {
   max: 100,

@@ -1,6 +1,6 @@
 import { Model } from '../Model/Model';
 import { View } from '../View/View';
-import { sliderState } from '../Types/state';
+import { sliderState } from '../../Types/state';
 
 class Presenter {
   rootNode: HTMLElement;
