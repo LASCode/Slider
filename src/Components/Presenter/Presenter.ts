@@ -1,7 +1,7 @@
 import { Model } from '../Model/Model';
 import { View } from '../View/View';
 import { sliderState } from '../../Types/state';
-import {layoutEvent, viewEvent} from '../../Types/event';
+import { viewEvent } from '../../Types/event';
 
 
 class Presenter {
