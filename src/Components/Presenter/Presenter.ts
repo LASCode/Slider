@@ -17,24 +17,41 @@ class Presenter {
     });
     this.View = new View({
       rootNode: this.rootNode,
-      state: this.Model.getState(),
       callback: this.viewEventHandler.bind(this),
     });
+    this.updateView(this.normalizeModelEvent(this.Model.getState()));
   }
   viewEventHandler(event: viewEvent) {
-    this.Model.testData(this.pixelToValidNumber(event));
+    this.updateModel(this.normalizeViewEvent(event));
   }
   modelEventHandler(state: sliderState) {
-    this.updateView(state);
-  }
-  pixelToValidNumber(action: viewEvent): viewEvent {
-    const copyAction = { ...action };
-    copyAction.value.x = (action.value.x - this.View.getOfSet()) / (this.View.getSize() / 100);
-    copyAction.value.y = (action.value.y - this.View.getOfSet()) / (this.View.getSize() / 100);
-    return copyAction;
+    this.updateView(this.normalizeModelEvent(state));
   }
   updateView(state: sliderState) {
     this.View.updateComponents(state);
+  }
+  updateModel(event: viewEvent) {
+    this.Model.testData(event);
+  }
+
+
+  normalizeViewEvent(event: viewEvent): viewEvent {
+    const { min, max } = this.Model.getState();
+    return ({
+      ...event,
+      value: {
+        ...event.value,
+        x: (event.value.x - this.View.getOfSet()) / (this.View.getSize() / (max - min)) + min,
+        y: (event.value.y - this.View.getOfSet()) / (this.View.getSize() / (max - min)) + min,
+      },
+    });
+  }
+  normalizeModelEvent(state: sliderState): sliderState {
+    return ({
+      ...state,
+      from: state.from / ((state.max - state.min) / 100),
+      to: state.to / ((state.max - state.min) / 100),
+    });
   }
 }
 
