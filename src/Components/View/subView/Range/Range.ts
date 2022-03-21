@@ -33,12 +33,21 @@ class Range extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: sliderState) {
+    const startPositionType = state.horizontal ? 'left' : 'top';
+    const endPositionType = state.horizontal ? 'width' : 'height';
+    if (state.horizontal) {
+      this.componentNode.classList.add('jq-slider__range--horizontal');
+    }
+    if (!state.horizontal) {
+      this.componentNode.classList.add('jq-slider__range--vertical');
+    }
     if (state.isRange) {
-      this.componentNode.style.left = `${state.from}%`;
-      this.componentNode.style.width = `${state.to - state.from}%`;
-    } else {
-      this.componentNode.style.left = `${0}%`;
-      this.componentNode.style.width = `${state.from}%`;
+      this.componentNode.style[startPositionType] = `${state.from}%`;
+      this.componentNode.style[endPositionType] = `${state.to - state.from}%`;
+    }
+    if (!state.isRange) {
+      this.componentNode.style[startPositionType] = `${0}%`;
+      this.componentNode.style[endPositionType] = `${state.from}%`;
     }
   }
 

@@ -32,7 +32,11 @@ class Line extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: sliderState) {
-
+    if (state.horizontal){
+      this.componentNode.classList.add('jq-slider__line--horizontal');
+    } else {
+      this.componentNode.classList.add('jq-slider__line--vertical');
+    }
   }
 
   onClick(e: PointerEvent) {

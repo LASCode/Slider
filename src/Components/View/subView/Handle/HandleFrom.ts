@@ -35,8 +35,16 @@ class HandleFrom extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: sliderState) {
-    this.componentNode.style.left = `${state.from}%`;
-    this.componentNode.style.top = '';
+    if (state.horizontal) {
+      this.componentNode.classList.add('jq-slider__handle--horizontal');
+      this.componentNode.style.left = `${state.from}%`;
+      this.componentNode.style.top = '';
+    }
+    if (!state.horizontal) {
+      this.componentNode.classList.add('jq-slider__handle--vertical');
+      this.componentNode.style.left = '';
+      this.componentNode.style.top = `${state.from}%`;
+    }
   }
 
   onClick(event: PointerEvent) {
