@@ -1,15 +1,17 @@
 import { viewProps } from '../../Types/props';
-import { Line } from './subView/Line/Line';
 import { viewEvent } from '../../Types/event';
-import { Handle } from './subView/Handle/Handle';
+import { Line } from './subView/Line/Line';
+import { Range } from './subView/Range/Range';
 import { sliderState } from '../../Types/state';
+import { HandleFrom } from './subView/Handle/HandleFrom';
+import { HandleTo } from './subView/Handle/HandleTo';
 
 
 class View {
   rootNode: HTMLElement;
   sliderNode: HTMLElement;
   callback: Function;
-  components!: Array<Line | Handle>
+  components!: Array<Line | HandleFrom | HandleTo | Range>
 
   constructor(props: viewProps) {
     this.rootNode = props.rootNode;
@@ -28,7 +30,9 @@ class View {
   }
   createSubViewComponents() {
     this.components.push(new Line(this.sliderNode));
-    this.components.push(new Handle(this.sliderNode));
+    this.components.push(new Range(this.sliderNode));
+    this.components.push(new HandleFrom(this.sliderNode));
+    this.components.push(new HandleTo(this.sliderNode));
   }
   subViewEventListener(action: viewEvent) {
     this.callback(action);
