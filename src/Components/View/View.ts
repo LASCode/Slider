@@ -5,6 +5,7 @@ import { Range } from './subView/Range/Range';
 import { sliderState } from '../../Types/state';
 import { HandleFrom } from './subView/Handle/HandleFrom';
 import { HandleTo } from './subView/Handle/HandleTo';
+import { TipFrom } from './subView/Tip/TipFrom';
 
 
 class View {
@@ -46,8 +47,11 @@ class View {
   getSize() {
     return this.rootNode.clientWidth;
   }
-  getOfSet() {
+  getOfSetX() {
     return this.rootNode.offsetLeft;
+  }
+  getOfSetY() {
+    return this.rootNode.offsetTop;
   }
 }
 

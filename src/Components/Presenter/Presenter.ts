@@ -37,12 +37,13 @@ class Presenter {
 
   normalizeViewEvent(event: viewEvent): viewEvent {
     const { min, max } = this.Model.getState();
+
     return ({
       ...event,
       value: {
         ...event.value,
-        x: (event.value.x - this.View.getOfSet()) / (this.View.getSize() / (max - min)) + min,
-        y: (event.value.y - this.View.getOfSet()) / (this.View.getSize() / (max - min)) + min,
+        x: (event.value.x - this.View.getOfSetX()) / (this.View.getSize() / (max - min)) + min,
+        y: (event.value.y - this.View.getOfSetY()) / (this.View.getSize() / (max - min)) + min,
       },
     });
   }
