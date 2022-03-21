@@ -5,6 +5,7 @@ interface DefaultSubViewElement {
   sliderNode: HTMLElement,
   componentNode: HTMLElement,
   target: string,
+  type: string,
 
   createComponent(): void
   destroyComponent(): void
