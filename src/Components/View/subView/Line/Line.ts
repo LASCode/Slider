@@ -6,6 +6,7 @@ class Line extends subViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
   componentNode!: HTMLElement;
   target: string = 'line';
+  type: string = '';
 
   constructor(sliderNode: HTMLElement) {
     super();
@@ -37,6 +38,8 @@ class Line extends subViewElement implements DefaultSubViewElement {
   onClick(e: PointerEvent) {
     this.sendAction({
       target: this.target,
+      type: this.type,
+      event: 'click',
       value: {
         x: e.clientX,
         y: e.clientY,
