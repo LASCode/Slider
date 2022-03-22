@@ -45,13 +45,16 @@ class View {
     this.components.forEach((component) => component.update(state));
   }
   getSize() {
-    return this.rootNode.clientWidth;
+    return ({
+      sliderHeight: this.sliderNode.clientHeight,
+      sliderWidth: this.sliderNode.clientWidth,
+    });
   }
-  getOfSetX() {
-    return this.rootNode.offsetLeft;
-  }
-  getOfSetY() {
-    return this.rootNode.offsetTop;
+  getOffSet() {
+    return ({
+      sliderOffSetX: this.rootNode.offsetLeft,
+      sliderOffSetY: this.rootNode.offsetTop,
+    });
   }
 }
 

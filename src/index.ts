@@ -1,18 +1,18 @@
 import $ from 'jquery';
 import './index.scss';
 import { Presenter } from './Components/Presenter/Presenter';
-import { sliderState } from './Types/state';
+import { startUserOptions } from './Types/state';
 
 
 class jqSlider {
   rootNode: HTMLElement;
-  state: sliderState;
+  options: startUserOptions;
   Presenter: Presenter;
 
-  constructor(element: HTMLElement, settings: sliderState) {
+  constructor(element: HTMLElement, settings: startUserOptions) {
     this.rootNode = element;
-    this.state = settings;
-    this.Presenter = new Presenter(this.rootNode, this.state);
+    this.options = settings;
+    this.Presenter = new Presenter(this.rootNode, this.options);
   }
 }
 
@@ -25,7 +25,10 @@ $(document).ready(() => {
     const test = new jqSlider(element, {
       max: 1000,
       min: 0,
-      from: 500,
+      from: 200,
+      to: 750,
+      isRange: false,
+      horizontal: true,
     });
   });
 });
