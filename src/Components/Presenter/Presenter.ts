@@ -36,14 +36,16 @@ class Presenter {
 
 
   normalizeViewEvent(event: viewEvent): viewEvent {
-    const { min, max } = this.Model.getState();
+    const { min, max, horizontal } = this.Model.getState();
+    const { sliderOffSetX, sliderOffSetY } = this.View.getOffSet();
+    const { sliderWidth, sliderHeight } = this.View.getSize();
 
     return ({
       ...event,
       value: {
         ...event.value,
-        x: (event.value.x - this.View.getOfSetX()) / (this.View.getSize() / (max - min)) + min,
-        y: (event.value.y - this.View.getOfSetY()) / (this.View.getSize() / (max - min)) + min,
+        x: (event.value.x - sliderOffSetX) / ((horizontal ? sliderWidth : sliderHeight) / (max - min)) + min,
+        y: (event.value.y - sliderOffSetY) / ((horizontal ? sliderWidth : sliderHeight) / (max - min)) + min,
       },
     });
   }
