@@ -1,10 +1,14 @@
 interface sliderState {
   max: number
   min: number
-  from: number
-  to: number
+  step: number
+  size: {height: number, width: number, offSetX: number, offSetY: number}
+  from: {px: number, percent: number, total: number, isHold: boolean, isAbstractHold: boolean}
+  to: {px: number, percent: number, total: number, isHold: boolean, isAbstractHold: boolean}
   isRange?: boolean
-  type?: string
+  horizontal?: boolean
+  scaleStep: number
+  scaleStepsArr: Array<number>
 }
 
 export { sliderState };
