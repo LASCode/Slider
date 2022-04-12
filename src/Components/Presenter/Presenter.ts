@@ -1,13 +1,13 @@
 import { Model } from '../Model/Model';
 import { View } from '../View/View';
 import { sliderState } from '../../Types/state';
-import { viewEvent } from '../../Types/event';
+import { viewEvent, viewEventType } from '../../Types/event';
 
 
 class Presenter {
   rootNode: HTMLElement;
-  View: any;
-  Model: any;
+  View: View;
+  Model: Model;
 
   constructor(element: HTMLElement, state: sliderState) {
     this.rootNode = element;
@@ -19,18 +19,22 @@ class Presenter {
       rootNode: this.rootNode,
       callback: this.viewEventHandler.bind(this),
     });
-    this.updateView(this.normalizeModelEvent(this.Model.getState()));
+    this.View.sendSliderSize();
+    this.updateView(this.Model.getState());
   }
-  viewEventHandler(event: viewEvent) {
-    this.updateModel(this.normalizeViewEvent(event));
+
+  viewEventHandler(event: viewEventType) {
+    // console.log(event.data)
+    this.updateModel(event);
+    // this.updateModel(this.normalizeViewEvent(event));
   }
   modelEventHandler(state: sliderState) {
-    this.updateView(this.normalizeModelEvent(state));
+    this.updateView(state);
   }
   updateView(state: sliderState) {
     this.View.updateComponents(state);
   }
-  updateModel(event: viewEvent) {
+  updateModel(event: viewEventType) {
     this.Model.testData(event);
   }
 
@@ -38,24 +42,24 @@ class Presenter {
   normalizeViewEvent(event: viewEvent): viewEvent {
     const { min, max, horizontal } = this.Model.getState();
     const { sliderOffSetX, sliderOffSetY } = this.View.getOffSet();
-    const { sliderWidth, sliderHeight } = this.View.getSize();
+    const { width, height } = this.View.getSize();
 
     return ({
       ...event,
       value: {
         ...event.value,
-        x: (event.value.x - sliderOffSetX) / ((horizontal ? sliderWidth : sliderHeight) / (max - min)) + min,
-        y: (event.value.y - sliderOffSetY) / ((horizontal ? sliderWidth : sliderHeight) / (max - min)) + min,
+        x: (event.value.x - sliderOffSetX) / ((horizontal ? width : height) / (max - min)) + min,
+        y: (event.value.y - sliderOffSetY) / ((horizontal ? width : height) / (max - min)) + min,
       },
     });
   }
-  normalizeModelEvent(state: sliderState): sliderState {
-    return ({
-      ...state,
-      from: state.from / ((state.max - state.min) / 100),
-      to: state.to / ((state.max - state.min) / 100),
-    });
-  }
+  // normalizeModelEvent(state: sliderState): sliderState {
+  //   return ({
+  //     ...state,
+  //     from: state.from / ((state.max - state.min) / 100),
+  //     to: state.to / ((state.max - state.min) / 100),
+  //   });
+  // }
 }
 
 export { Presenter };
