@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --config webpack.config.js",
-    "serve": "webpack serve --mode development --hot --config webpack.config.js"
+    "dev": "cross-env NODE_ENV=development webpack",
+    "serve": "cross-env NODE_ENV=development webpack serve --hot",
+    "prod": "cross-env NODE_ENV=production webpack"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "@types/jquery": "^3.5.14",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
