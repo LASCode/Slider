@@ -1,12 +1,13 @@
-import { sliderState } from './state';
+import { SliderState } from './state';
+import { viewCallbackFunction } from './ViewEventTypes';
 
 interface viewProps {
  rootNode: HTMLElement,
- callback: Function
+ callback: viewCallbackFunction
 }
 interface modelProps {
-  state: sliderState,
-  callback: Function
+  state: SliderState,
+  callback: viewCallbackFunction
 }
 
 export { viewProps, modelProps };

@@ -11,5 +11,47 @@ interface sliderState {
   scaleStepsArr: Array<number>
 }
 
-export { sliderState };
+interface userOptions {
+  max?: number,
+  min?: number,
+  from?: number,
+  to?: number,
+  step?: number,
+  isRange?: boolean,
+  horizontal?: boolean,
+  scaleStep?: number,
+  onChangeFunction?: Function,
+  changeValueFunction?: Function;
+}
+interface SliderState {
+  max: number,
+  min: number,
+  from: number,
+  to: number,
+  step: number,
+  isRange: boolean,
+  horizontal: boolean,
+  scaleStep: number,
+  onChangeFunction: Function,
+  changeValueFunction: Function;
+}
+type SliderStateModified = Partial<SliderState>
+type StateProperties = keyof SliderState
+interface viewSliderState {
+  max: number
+  min: number
+  horizontal: boolean
+  isRange: boolean
+  from: {px: number, percent: number, total: number, movingNow: boolean, pressedNow: boolean}
+  to: {px: number, percent: number, total: number, movingNow: boolean, pressedNow: boolean}
+  scaleItemsArray: number[]
+}
+interface viewTempData {
+  handleSelected: string | null,
+  handleMovingNow: string | null,
+  handlePressedNow: string | null,
+  handleValue: number,
+}
+
+export { SliderState, SliderStateModified, StateProperties, viewSliderState, viewTempData, userOptions };
 

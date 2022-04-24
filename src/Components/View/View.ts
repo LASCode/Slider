@@ -1,38 +1,37 @@
 import { viewProps } from '../../Types/props';
-import { viewEvent } from '../../Types/event';
 import { Line } from './subView/Line/Line';
 import { Range } from './subView/Range/Range';
-import { sliderState } from '../../Types/state';
+import { viewSliderState } from '../../Types/state';
 import { HandleFrom } from './subView/Handle/HandleFrom';
 import { HandleTo } from './subView/Handle/HandleTo';
+import { subViewEvent, viewCallbackFunction } from '../../Types/ViewEventTypes';
+import { Scale} from './subView/Scale/Scale';
 import { TipFrom } from './subView/Tip/TipFrom';
-import {TipTo} from "./subView/Tip/TipTo";
-import {Scale} from "./subView/Scale/Scale";
-import {TipTestFrom} from "./subView/Tip/TipTestFrom";
-import {TipTestTo} from "./subView/Tip/TipTestTo";
+import { TipTo } from './subView/Tip/TipTo';
 
 
 class View {
   rootNode: HTMLElement;
-  sliderNode: HTMLElement;
-  callback: Function;
-  components!: Array<Line | HandleFrom | HandleTo | Range>
+  sliderNode!: HTMLElement;
+  callback: viewCallbackFunction;
+  components!: Array<Line | Range | HandleTo | HandleFrom | TipFrom | TipTo | Scale>
 
   constructor(props: viewProps) {
     this.rootNode = props.rootNode;
     this.callback = props.callback;
     this.components = [];
-    this.sliderNode = this.createSliderNode();
+    this.createSliderNode();
     this.createSubViewComponents();
-    this.setCallbackToSubVIewComponents();
-    this.setResizeListener();
+
+    // this.setCallbackToSubVIewComponents();
+    // this.setResizeListener();
   }
 
   createSliderNode() {
     const element = document.createElement('div');
     element.classList.add('jq-slider');
     this.rootNode.appendChild(element);
-    return element;
+    this.sliderNode = element;
   }
   createSubViewComponents() {
     this.components.push(new Line(this.sliderNode));
@@ -42,42 +41,29 @@ class View {
     this.components.push(new TipFrom(this.sliderNode));
     this.components.push(new TipTo(this.sliderNode));
     this.components.push(new Scale(this.sliderNode));
+    this.components.forEach((el) => el.setCallback(this.subViewEventHandler.bind(this)));
   }
-
-  setCallbackToSubVIewComponents() {
-    this.components.forEach((el) => el.setCallback(this.sendViewEventToPresenter.bind(this)));
+  update(state: viewSliderState) {
+    this.updateComponents(state);
   }
-  updateComponents(state: sliderState) {
+  updateComponents(state: viewSliderState) {
     this.components.forEach((component) => component.update(state));
   }
-  setResizeListener() {
-    this.sendSliderSize = this.sendSliderSize.bind(this);
-    window.addEventListener('resize', this.sendSliderSize);
+
+  subViewEventHandler(event: subViewEvent) {
+    this.callback(event);
   }
-  sendViewEventToPresenter(action: viewEvent) {
-    this.callback({
-      type: 'subViewEvent',
-      data: action,
-    });
-  }
-  sendSliderSize() {
-    this.callback({
-      type: 'resizeViewEvent',
-      data: this.getSize(),
-    });
-  }
+
   getSize() {
     return ({
-      height: this.sliderNode.clientHeight,
       width: this.sliderNode.clientWidth,
-      offSetX: this.rootNode.offsetLeft,
-      offSetY: this.rootNode.offsetTop,
+      height: this.sliderNode.clientHeight,
     });
   }
   getOffSet() {
     return ({
-      sliderOffSetX: this.rootNode.offsetLeft,
-      sliderOffSetY: this.rootNode.offsetTop,
+      offSetX: this.sliderNode.offsetLeft,
+      offSetY: this.sliderNode.offsetTop,
     });
   }
 }
