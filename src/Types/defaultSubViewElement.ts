@@ -1,4 +1,4 @@
-import { sliderState } from './state';
+import { viewSliderState } from './state';
 
 
 interface DefaultSubViewElement {
@@ -11,7 +11,7 @@ interface DefaultSubViewElement {
   destroyComponent(): void
   setListeners(): void
   removeListeners(): void
-  update(state: sliderState): void
+  update(state: viewSliderState): void
 }
 
 export { DefaultSubViewElement };
