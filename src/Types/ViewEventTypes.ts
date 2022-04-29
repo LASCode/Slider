@@ -2,6 +2,7 @@ import { lineEvent } from './SubViewEvents/LineTypes';
 import { handleEvent } from './SubViewEvents/HandleTypes';
 import { rangeEvent } from './SubViewEvents/RangeTypes';
 import { scaleEvent } from './SubViewEvents/ScaleTypes';
+import { tipEvent } from './SubViewEvents/TipTypes';
 
 
 
@@ -22,7 +23,7 @@ interface subViewValue {
   total: number | boolean,
 }
 
-type subViewEvent = lineEvent | handleEvent | rangeEvent | scaleEvent
+type subViewEvent = lineEvent | handleEvent | rangeEvent | scaleEvent | tipEvent;
 type viewCallbackFunction = (event: subViewEvent) => void;
 export {
   subViewCoordsValue,
