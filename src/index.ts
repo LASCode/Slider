@@ -7,12 +7,12 @@
 import './index.scss';
 import './utils/utils';
 import { Presenter } from './Components/Presenter/Presenter';
-import {SliderState, SliderStateModified, StateProperties, userOptions} from './Types/state';
+import { SliderState, SliderStateModified, StateProperties } from './Types/state';
 
 
 interface init {
   type: 'init',
-  data: userOptions,
+  data: SliderStateModified,
 }
 interface update {
   type: 'update',
@@ -30,7 +30,7 @@ declare global {
 
 (function ($) {
   const methods = {
-    init(this: JQuery<HTMLElement>, options: userOptions) {
+    init(this: JQuery<HTMLElement>, options: SliderStateModified) {
       this.each((index, element) => {
         if (!$(element).data().jqSlider) {
           $(element).data().jqSlider = new Presenter(element, options);
