@@ -27,6 +27,18 @@ if (process.env.NODE_ENV === 'production') {
   };
   plugins = [];
 }
+if (process.env.NODE_ENV === 'productionWithDemoPage') {
+  entryPoints = {
+    demo: './src/demoPage/demoPage.ts',
+  };
+  plugins = [
+    new HtmlWebpackPlugin({
+      filename: './index.html',
+      template: path.resolve(__dirname, 'src/demoPage/demoPage.html'),
+      chunks: ['demo'],
+    }),
+  ];
+}
 
 module.exports = {
   entry: entryPoints,
