@@ -14,6 +14,7 @@ class View {
   rootNode: HTMLElement;
   sliderNode!: HTMLElement;
   callback: viewCallbackFunction;
+  tempData: {currentCustomClass: string, currentCustomId: string} = { currentCustomClass: '', currentCustomId: '' }
   components!: Array<Line | Range | HandleTo | HandleFrom | TipFrom | TipTo | Scale>
 
   constructor(props: viewProps) {
@@ -22,9 +23,6 @@ class View {
     this.components = [];
     this.createSliderNode();
     this.createSubViewComponents();
-
-    // this.setCallbackToSubVIewComponents();
-    // this.setResizeListener();
   }
 
   createSliderNode() {
@@ -44,11 +42,37 @@ class View {
     this.components.forEach((el) => el.setCallback(this.subViewEventHandler.bind(this)));
   }
   update(state: viewSliderState) {
+    this.updateViewNode(state);
     this.updateComponents(state);
   }
   updateComponents(state: viewSliderState) {
     this.components.forEach((component) => component.update(state));
   }
+  updateViewNode(state: viewSliderState) {
+    const { customClass, customId } = state;
+    const { currentCustomClass, currentCustomId } = this.tempData;
+    if (customClass !== currentCustomClass) {
+      const classArray = customClass.split(' ').filter((el) => el !== '');
+      this.sliderNode.classList.forEach((el, index) => {
+        if (index > 0) this.sliderNode.classList.remove(el);
+      });
+      classArray.forEach((el) => {
+        if (el !== '') {
+          this.sliderNode.classList.add(el);
+        }
+      });
+      this.tempData.currentCustomClass = customClass;
+    }
+    if (customId !== currentCustomId) {
+      if (customId !== '') {
+        this.sliderNode.id = customId;
+      } else {
+        this.sliderNode.removeAttribute('id');
+      }
+      this.tempData.currentCustomId = customId;
+    }
+  }
+
 
   subViewEventHandler(event: subViewEvent) {
     this.callback(event);
@@ -61,7 +85,10 @@ class View {
     });
   }
   getOffSet() {
+    const { left, top } = this.sliderNode.getBoundingClientRect();
     return ({
+      clientOffSetX: left,
+      clientOffSetY: top,
       offSetX: this.sliderNode.offsetLeft,
       offSetY: this.sliderNode.offsetTop,
     });
