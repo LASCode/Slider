@@ -17,7 +17,7 @@ class Range extends subViewElement implements DefaultSubViewElement {
   }
   createComponent() {
     const element = document.createElement('div');
-    element.classList.add('jq-slider__range');
+    element.classList.add('jqsRange');
     this.sliderNode.appendChild(element);
     this.componentNode = element;
     this.isMounted = true;
@@ -36,28 +36,28 @@ class Range extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { horizontal, isRange, from, to } = state;
-    if (this.memoState([horizontal, isRange, from, to])) {
-      const currentStartPosition = horizontal ? 'left' : 'top';
-      const oppositeStartPosition = horizontal ? 'top' : 'left';
-      const currentEndPosition = horizontal ? 'width' : 'height';
-      const oppositeEndPosition = horizontal ? 'height' : 'width';
+    const { horizontal, isRange, from, to, invert } = state;
+    const horizontalWithInvert = invert ? 'right' : 'left';
+    const verticalWithInvert = invert ? 'bottom' : 'top';
+    const currentStartPosition = horizontal ? horizontalWithInvert : verticalWithInvert;
+    const oppositeStartPosition = horizontal ? verticalWithInvert : horizontalWithInvert;
+    const currentEndPosition = horizontal ? 'width' : 'height';
+    const oppositeEndPosition = horizontal ? 'height' : 'width';
 
+    if (this.MemoState('move', [from, to, isRange, invert])) {
+      this.componentNode.style.cssText = '';
       if (isRange) {
-        this.componentNode.style[oppositeStartPosition] = '';
-        this.componentNode.style[oppositeEndPosition] = '';
         this.componentNode.style[currentStartPosition] = `${from.percent}%`;
         this.componentNode.style[currentEndPosition] = `${to.percent - from.percent}%`;
-      }
-      if (!isRange) {
-        this.componentNode.style[oppositeStartPosition] = '';
-        this.componentNode.style[oppositeEndPosition] = '';
+      } else {
         this.componentNode.style[currentStartPosition] = `${0}%`;
         this.componentNode.style[currentEndPosition] = `${from.percent}%`;
       }
+    }
 
-      this.componentNode.classList.add(`jq-slider__range--${horizontal ? 'horizontal' : 'vertical'}`);
-      this.componentNode.classList.remove(`jq-slider__range--${horizontal ? 'vertical' : 'horizontal'}`);
+    if (this.MemoState('classModifiers', [horizontal])) {
+      this.componentNode.classList.toggle('jqsRange--horizontal', horizontal);
+      this.componentNode.classList.toggle('jqsRange--vertical', !horizontal);
     }
   }
 

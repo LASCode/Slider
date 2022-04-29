@@ -16,7 +16,7 @@ class Line extends subViewElement implements DefaultSubViewElement {
   }
   createComponent() {
     const element = document.createElement('div');
-    element.classList.add('jq-slider__line');
+    element.classList.add('jqsLine');
     this.sliderNode.appendChild(element);
     this.componentNode = element;
     this.isMounted = true;
@@ -36,9 +36,10 @@ class Line extends subViewElement implements DefaultSubViewElement {
   }
   update(state: viewSliderState) {
     const { horizontal } = state;
-    if (this.memoState([horizontal])) {
-      this.componentNode.classList.add(`jq-slider__line--${horizontal ? 'horizontal' : 'vertical'}`);
-      this.componentNode.classList.remove(`jq-slider__line--${horizontal ? 'vertical' : 'horizontal'}`);
+
+    if (this.MemoState('classModifiers', [horizontal])) {
+      this.componentNode.classList.toggle('jqsLine--horizontal', horizontal);
+      this.componentNode.classList.toggle('jqsLine--vertical', !horizontal);
     }
   }
 

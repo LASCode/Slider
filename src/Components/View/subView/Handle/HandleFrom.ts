@@ -17,7 +17,7 @@ class HandleFrom extends subViewElement implements DefaultSubViewElement {
   }
   createComponent() {
     const element = document.createElement('div');
-    element.classList.add('jq-slider__handle');
+    element.classList.add('jqsHandle');
     this.sliderNode.appendChild(element);
     this.componentNode = element;
     this.isMounted = true;
@@ -38,17 +38,21 @@ class HandleFrom extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { horizontal, from } = state;
-    if (this.memoState([horizontal, from])) {
-      const currentStartPosition = horizontal ? 'left' : 'top';
-      const oppositeStartPosition = horizontal ? 'top' : 'left';
+    const { horizontal, from, invert, handleSplit } = state;
+    const currentStartPosition = horizontal ? 'left' : 'top';
+    const oppositeStartPosition = horizontal ? 'top' : 'left';
+    const valueWithInvert = invert ? 100 - from.percent : from.percent;
 
-      if (from.movingNow) { this.componentNode.classList.add('jq-slider__handle--handled'); }
-      if (!from.movingNow) { this.componentNode.classList.remove('jq-slider__handle--handled'); }
-      this.componentNode.classList.add(`jq-slider__handle--${horizontal ? 'horizontal' : 'vertical'}`);
-      this.componentNode.classList.remove(`jq-slider__handle--${horizontal ? 'vertical' : 'horizontal'}`);
-      this.componentNode.style[currentStartPosition] = `${state.from.percent}%`;
+    if (this.MemoState('move', [from, horizontal, invert, handleSplit])) {
+      this.componentNode.style[currentStartPosition] = `${valueWithInvert}%`;
       this.componentNode.style[oppositeStartPosition] = '';
+    }
+
+    if (this.MemoState('classModifiers', [from.pressedLast, from.movingNow, horizontal])) {
+      this.componentNode.classList.toggle('jqsHandle--pressedLast', from.pressedLast);
+      this.componentNode.classList.toggle('jqsHandle--handled', from.movingNow);
+      this.componentNode.classList.toggle('jqsHandle--horizontal', horizontal);
+      this.componentNode.classList.toggle('jqsHandle--vertical', !horizontal);
     }
   }
 

@@ -1,8 +1,10 @@
 import { subViewEvent, viewCallbackFunction } from '../../../Types/ViewEventTypes';
 
 class subViewElement {
-  isMounted: boolean = false;
+  componentNode!: HTMLElement
+  isMounted: boolean = false
   memoizedValue: any[] = []
+  MemoizedValue: {[key: string]: any[]} = {}
   callback!: viewCallbackFunction;
   setCallback(callback: viewCallbackFunction) {
     this.callback = callback;
@@ -17,6 +19,20 @@ class subViewElement {
     } else {
       return false;
     }
+  }
+  MemoState(name: string, data: any[]) {
+    const memoizedData = this.MemoizedValue[name];
+    const isUndefined = memoizedData === undefined;
+    const isNotIdentical = JSON.stringify(memoizedData) !== JSON.stringify(data);
+    if (isUndefined) {
+      this.MemoizedValue[name] = data;
+      return true;
+    }
+    if (!isUndefined && isNotIdentical) {
+      this.MemoizedValue[name] = data;
+      return true;
+    }
+    return false;
   }
 }
 export { subViewElement };

@@ -19,7 +19,7 @@ class Scale extends subViewElement implements DefaultSubViewElement {
   }
   createComponent() {
     const element = document.createElement('div');
-    element.classList.add('jq-slider__scale');
+    element.classList.add('jqsScale');
     this.sliderNode.appendChild(element);
     this.componentNode = element;
     this.isMounted = true;
@@ -38,18 +38,28 @@ class Scale extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { scaleItemsArray, min, max, horizontal } = state;
-    if (this.memoState([scaleItemsArray, horizontal])) {
-      if (!scaleItemsArray.length && this.isMounted) { this.destroyComponent(); return; }
+    const { scaleItemsArray, min, max, horizontal, invert } = state;
+
+    if (this.MemoState('removeComponent', [scaleItemsArray])) {
+      if (!scaleItemsArray.length && this.isMounted) { this.destroyComponent(); }
       if (scaleItemsArray.length && !this.isMounted) { this.createComponent(); }
-      this.componentNode.classList.add(`jq-slider__scale--${horizontal ? 'horizontal' : 'vertical'}`);
-      this.componentNode.classList.remove(`jq-slider__scale--${horizontal ? 'vertical' : 'horizontal'}`);
+    }
+
+    if (this.MemoState('updateScaleItems', [scaleItemsArray, horizontal, invert])) {
       this.removeAllScaleItems();
       scaleItemsArray.forEach((el) => {
-        const element = this.createScaleItem(el, valueToPercent(el, max, min), horizontal ? 'left' : 'top');
+        const positionWithInvert = invert
+          ? 100 - valueToPercent(el, max, min)
+          : valueToPercent(el, max, min);
+        const element = this.createScaleItem(el, positionWithInvert, horizontal ? 'left' : 'top');
         this.componentNode.appendChild(element);
         this.scaleElementsArray.push(element);
       });
+    }
+
+    if (this.MemoState('setClassModifiers', [horizontal, invert])) {
+      this.componentNode.classList.toggle('jqsScale--horizontal', horizontal);
+      this.componentNode.classList.toggle('jqsScale--vertical', !horizontal);
     }
   }
 
@@ -58,11 +68,11 @@ class Scale extends subViewElement implements DefaultSubViewElement {
   }
   createScaleItem(value: number, position: number, align: 'top' | 'left') {
     const itemRootNode = document.createElement('div');
-    itemRootNode.classList.add('jq-slider__scale-item');
+    itemRootNode.classList.add('jqsScale__item');
     itemRootNode.style[align] = `${position}%`;
 
     const itemTextNode = document.createElement('div');
-    itemTextNode.classList.add('jq-slider__scale-num');
+    itemTextNode.classList.add('jqsScale__num');
     itemTextNode.textContent = `${value}`;
 
     itemRootNode.appendChild(itemTextNode);
@@ -73,7 +83,7 @@ class Scale extends subViewElement implements DefaultSubViewElement {
   onClick(e: PointerEvent) {
     e.stopPropagation();
     const target = e.target as HTMLElement;
-    if ([...target.classList].includes('jq-slider__scale-num')) {
+    if ([...target.classList].includes('jqsScale__num')) {
       this.sendAction({
         target: this.target,
         type: this.type,

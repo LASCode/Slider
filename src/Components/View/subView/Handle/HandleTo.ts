@@ -17,7 +17,7 @@ class HandleTo extends subViewElement implements DefaultSubViewElement {
   }
   createComponent() {
     const element = document.createElement('div');
-    element.classList.add('jq-slider__handle');
+    element.classList.add('jqsHandle');
     this.sliderNode.appendChild(element);
     this.componentNode = element;
     this.isMounted = true;
@@ -38,19 +38,26 @@ class HandleTo extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { horizontal, to, isRange } = state;
-    if (this.memoState([horizontal, to, isRange])) {
-      const currentStartPosition = horizontal ? 'left' : 'top';
-      const oppositeStartPosition = horizontal ? 'top' : 'left';
+    const { horizontal, to, isRange, invert, handleSplit } = state;
+    const currentStartPosition = horizontal ? 'left' : 'top';
+    const oppositeStartPosition = horizontal ? 'top' : 'left';
+    const valueWithInvert = invert ? 100 - to.percent : to.percent;
 
-      if (!isRange && this.isMounted) { this.destroyComponent(); return; }
+    if (this.MemoState('range', [isRange])) {
+      if (!isRange && this.isMounted) { this.destroyComponent(); }
       if (isRange && !this.isMounted) { this.createComponent(); }
-      if (to.movingNow) { this.componentNode.classList.add('jq-slider__handle--handled'); }
-      if (!to.movingNow) { this.componentNode.classList.remove('jq-slider__handle--handled'); }
-      this.componentNode.classList.add(`jq-slider__handle--${horizontal ? 'horizontal' : 'vertical'}`);
-      this.componentNode.classList.remove(`jq-slider__handle--${horizontal ? 'vertical' : 'horizontal'}`);
-      this.componentNode.style[currentStartPosition] = `${state.to.percent}%`;
+    }
+
+    if (this.MemoState('move', [to, horizontal, isRange, invert, handleSplit])) {
+      this.componentNode.style[currentStartPosition] = `${valueWithInvert}%`;
       this.componentNode.style[oppositeStartPosition] = '';
+    }
+
+    if (this.MemoState('classModifiers', [to.pressedLast, to.movingNow, horizontal, isRange])) {
+      this.componentNode.classList.toggle('jqsHandle--pressedLast', to.pressedLast);
+      this.componentNode.classList.toggle('jqsHandle--handled', to.movingNow);
+      this.componentNode.classList.toggle('jqsHandle--horizontal', horizontal);
+      this.componentNode.classList.toggle('jqsHandle--vertical', !horizontal);
     }
   }
 
