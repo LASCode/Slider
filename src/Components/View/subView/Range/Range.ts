@@ -37,20 +37,18 @@ class Range extends subViewElement implements DefaultSubViewElement {
   }
   update(state: viewSliderState) {
     const { horizontal, isRange, from, to, invert } = state;
-    const horizontalWithInvert = invert ? 'right' : 'left';
-    const verticalWithInvert = invert ? 'bottom' : 'top';
-    const currentStartPosition = horizontal ? horizontalWithInvert : verticalWithInvert;
-    const oppositeStartPosition = horizontal ? verticalWithInvert : horizontalWithInvert;
+    const currentStartPosition = horizontal ? 'left' : 'top';
     const currentEndPosition = horizontal ? 'width' : 'height';
-    const oppositeEndPosition = horizontal ? 'height' : 'width';
 
     if (this.MemoState('move', [from, to, isRange, invert])) {
       this.componentNode.style.cssText = '';
       if (isRange) {
-        this.componentNode.style[currentStartPosition] = `${from.percent}%`;
+        const horizontalWithInvert = invert ? 100 - to.percent : from.percent;
+        this.componentNode.style[currentStartPosition] = `${horizontalWithInvert}%`;
         this.componentNode.style[currentEndPosition] = `${to.percent - from.percent}%`;
       } else {
-        this.componentNode.style[currentStartPosition] = `${0}%`;
+        const horizontalWithInvert = invert ? 100 - from.percent : 0;
+        this.componentNode.style[currentStartPosition] = `${horizontalWithInvert}%`;
         this.componentNode.style[currentEndPosition] = `${from.percent}%`;
       }
     }
