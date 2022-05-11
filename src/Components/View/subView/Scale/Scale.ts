@@ -40,14 +40,15 @@ class Scale extends subViewElement implements DefaultSubViewElement {
   update(state: viewSliderState) {
     const { scaleItemsArray, min, max, horizontal, invert } = state;
 
-    if (this.MemoState('removeComponent', [scaleItemsArray])) {
+    if (this.MemoState('Mount/Unmount component', [scaleItemsArray])) {
       if (!scaleItemsArray.length && this.isMounted) { this.destroyComponent(); }
       if (scaleItemsArray.length && !this.isMounted) { this.createComponent(); }
     }
 
-    if (this.MemoState('updateScaleItems', [scaleItemsArray, horizontal, invert])) {
+    if (this.MemoState('Position and value data', [scaleItemsArray, horizontal, invert])) {
       this.removeAllScaleItems();
-      scaleItemsArray.forEach((el) => {
+      const scaleArrayCopy = invert ? scaleItemsArray.reverse() : scaleItemsArray;
+      scaleArrayCopy.forEach((el) => {
         const positionWithInvert = invert
           ? 100 - valueToPercent(el, max, min)
           : valueToPercent(el, max, min);
@@ -57,7 +58,7 @@ class Scale extends subViewElement implements DefaultSubViewElement {
       });
     }
 
-    if (this.MemoState('setClassModifiers', [horizontal, invert])) {
+    if (this.MemoState('Class modifiers data', [horizontal, invert])) {
       this.componentNode.classList.toggle('jqsScale--horizontal', horizontal);
       this.componentNode.classList.toggle('jqsScale--vertical', !horizontal);
     }
@@ -65,6 +66,7 @@ class Scale extends subViewElement implements DefaultSubViewElement {
 
   removeAllScaleItems() {
     this.scaleElementsArray.forEach((el) => el.remove());
+    this.scaleElementsArray = [];
   }
   createScaleItem(value: number, position: number, align: 'top' | 'left') {
     const itemRootNode = document.createElement('div');
@@ -81,7 +83,6 @@ class Scale extends subViewElement implements DefaultSubViewElement {
 
 
   onClick(e: PointerEvent) {
-    e.stopPropagation();
     const target = e.target as HTMLElement;
     if ([...target.classList].includes('jqsScale__num')) {
       this.sendAction({
