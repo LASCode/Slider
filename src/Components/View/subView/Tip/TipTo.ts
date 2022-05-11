@@ -47,23 +47,19 @@ class TipTo extends subViewElement implements DefaultSubViewElement {
     const oppositeStartPosition = horizontal ? 'top' : 'left';
     const valueWithInvert = invert ? 100 - to.percent : to.percent;
 
-    if (this.MemoState('tips', [tips])) {
+    if (this.MemoState('Mount/Unmount component', [tips, isRange])) {
       if (!tips && this.isMounted) { this.destroyComponent(); }
       if (tips && !this.isMounted && isRange) { this.createComponent(); }
-    }
-
-    if (this.MemoState('range', [isRange])) {
       if (!isRange && this.isMounted) { this.destroyComponent(); }
-      if (isRange && !this.isMounted) { this.createComponent(); }
     }
 
-    if (this.MemoState('move', [to, horizontal, isRange, invert, handleSplit, tips])) {
+    if (this.MemoState('Position and value data', [to, horizontal, isRange, invert, handleSplit, tips])) {
       this.textNode.innerText = `${to.total}`;
       this.componentNode.style[currentStartPosition] = `${valueWithInvert}%`;
       this.componentNode.style[oppositeStartPosition] = '';
     }
 
-    if (this.MemoState('classModifiers', [to.pressedLast, to.movingNow, horizontal, tips, isRange])) {
+    if (this.MemoState('Class modifiers data', [to.pressedLast, to.movingNow, horizontal, tips, isRange])) {
       this.componentNode.classList.toggle('jqsTips--horizontal', horizontal);
       this.componentNode.classList.toggle('jqsTips--vertical', !horizontal);
       this.componentNode.classList.toggle('jqsTips--pressedLast', to.pressedLast);
