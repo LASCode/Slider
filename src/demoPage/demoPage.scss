@@ -5,8 +5,12 @@
 .page {
   display: flex;
   justify-content: center;
+  //align-items: center; //
   height: 100vh;
-  background: radial-gradient(#6FCF97, #4bff96);
+  //backdrop-filter: blur(5px);
+  background: linear-gradient(#c6e4ee 0%, #c6e4ee 40%, #fed1ae 60%, #faa0b9 70%, #cb7dcb 80%, #757ecb 100%);
+  //background: radial-gradient(#6FCF97, #4bff96);
+  //background-color: whitesmoke;
   //#6FCF97#A3FFC9
   &__container{
     padding: 20px 0;
@@ -24,9 +28,16 @@
   border-radius: 5px;
   grid-template-columns: 200px 450px;
   box-shadow: 0px 8px 61px -45px rgba(34, 60, 80, 0.2);
-
-  input {
+  input[type='text'] {
+    width: 70px;
+    outline: none;
+  }
+  input[type='number'] {
     width: 100px;
+    outline: none;
+  }
+  input[type='checkbox'] {
+    width: 30px;
     outline: none;
   }
 
