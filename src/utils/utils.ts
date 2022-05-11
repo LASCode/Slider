@@ -28,7 +28,6 @@ const getFixedValueWithStep = (value: number, step: number): number => {
 const getScaleItemsArray = (max: number, min: number, step: number): number[] => {
   const result: number[] = [];
   if (step > 0 && max !== min) {
-    if (min < 0) result.push(min);
     for (let i = (min < 0 ? 0 : min); i < max; i = i + step) {
       result.push(i);
     }
@@ -37,6 +36,7 @@ const getScaleItemsArray = (max: number, min: number, step: number): number[] =>
     }
     result.push(max);
   }
+  if (min < 0) result.unshift(min);
   return result.map((el) => getFixedValueWithStep(el, step));;
 };
 const invertValue = (max: number, min: number, value: number): number => {
