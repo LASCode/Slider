@@ -6,7 +6,7 @@ import {
   pixelToPercentProps,
   pixelToValueProps, toFixedProps,
   valueToPercentProps,
-  valueToPixelProps
+  valueToPixelProps,
 } from '../Types/props';
 
 const valueToPercent = (props: valueToPercentProps): number => {
@@ -14,33 +14,37 @@ const valueToPercent = (props: valueToPercentProps): number => {
   return (100 / (max - min)) * (value - min);
 };
 const valueToPixel = (props: valueToPixelProps): number => {
-  const { size, max, min, value } = props;
+  const {
+    size, max, min, value,
+  } = props;
   return (size / 100) * ((100 / (max - min)) * (value - min));
+};
+const percentToValue = (props: percentToValueProps): number => {
+  const { value, max, min } = props;
+  return (((max - min) / 100) * value) + min;
 };
 const pixelToPercent = (props: pixelToPercentProps): number => {
   const { size, value } = props;
   return (100 / size) * value;
 };
 const pixelToValue = (props: pixelToValueProps): number => {
-  const { value, size, max, min } = props;
+  const {
+    value, size, max, min,
+  } = props;
   const percent = pixelToPercent({
-    value: value,
-    size: size,
-  })
+    value,
+    size,
+  });
   return percentToValue({
     value: percent,
-    max: max,
-    min: min,
+    max,
+    min,
   });
-};
-const percentToValue = (props: percentToValueProps): number => {
-  const { value, max, min, } = props;
-  return (((max - min) / 100) * value) + min;
 };
 const toFixed = (props: toFixedProps): number => {
   const { value, fixed } = props;
   let result: number = value;
-  const re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+  const re = new RegExp(`^-?\\d+(?:.\\d{0,${fixed || -1}})?`);
   const a = value.toString().match(re);
   if (a !== null) {
     result = Number(a[0]);
@@ -58,10 +62,10 @@ const getNumAfterComma = (props: getNumAfterCommaProps): number => {
 const getFixedValueWithStep = (props: getFixedValueWithStepProps): number => {
   const { value, step } = props;
   const numberCount = getNumAfterComma({
-    value: step
-  })
+    value: step,
+  });
   return toFixed({
-    value: value,
+    value,
     fixed: numberCount,
   });
 };
@@ -69,10 +73,10 @@ const getScaleItemsArray = (props: getScaleItemsArrayProps): number[] => {
   const { max, min, step } = props;
   const result: number[] = [];
   if (step > 0 && max !== min) {
-    for (let i = (min < 0 ? 0 : min); i < max; i = i + step) {
+    for (let i = (min < 0 ? 0 : min); i < max; i += step) {
       result.push(i);
     }
-    for (let i = 0 - step; i > min; i = i - step) {
+    for (let i = 0 - step; i > min; i -= step) {
       result.unshift(i);
     }
     result.push(max);
@@ -80,7 +84,7 @@ const getScaleItemsArray = (props: getScaleItemsArrayProps): number[] => {
   if (min < 0) result.unshift(min);
   return result.map((el) => getFixedValueWithStep({
     value: el,
-    step: step,
+    step,
   }));
 };
 const invertValue = (props: invertValueProps): number => {
@@ -92,7 +96,6 @@ const checkStep = (props: checkStepProps) => {
   const stepCopy = (step <= 0 ? 1 : step);
   return ((Math.round(value / stepCopy) * 100) / 100) * stepCopy;
 };
-
 
 export {
   valueToPercent,

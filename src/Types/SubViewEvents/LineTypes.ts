@@ -1,4 +1,4 @@
-import {subViewCoordsValue, subViewValue} from '../ViewEventTypes';
+import { subViewCoordsValue, subViewValue } from '../ViewEventTypes';
 
 type lineTarget = 'line';
 

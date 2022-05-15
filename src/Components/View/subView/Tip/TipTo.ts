@@ -1,9 +1,9 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
 import { viewSliderState } from '../../../../Types/state';
 import { tipTarget, tipTypes } from '../../../../Types/SubViewEvents/TipTypes';
 
-class TipTo extends subViewElement implements DefaultSubViewElement {
+class TipTo extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
   componentNode!: HTMLElement;
   textNode!: HTMLElement;
@@ -42,14 +42,16 @@ class TipTo extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { to, horizontal, isRange, invert, tips, handleSplit } = state;
+    const {
+      to, horizontal, isRange, invert, tips, handleSplit,
+    } = state;
     const currentStartPosition = horizontal ? 'left' : 'top';
     const oppositeStartPosition = horizontal ? 'top' : 'left';
     const valueWithInvert = invert ? 100 - to.percent : to.percent;
 
     if (this.MemoState('Mount/Unmount component', [tips, isRange])) {
       if (!tips && this.isMounted) { this.destroyComponent(); }
-      if (tips && !this.isMounted && isRange) { this.createComponent(); }
+      if (tips && !this.isMounted) { this.createComponent(); }
       if (!isRange && this.isMounted) { this.destroyComponent(); }
     }
 

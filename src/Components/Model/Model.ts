@@ -2,7 +2,6 @@ import { SliderState, SliderStateModified } from '../../Types/state';
 import { checkStep, getFixedValueWithStep } from '../../utils/utils';
 import { modelProps } from '../../Types/props';
 
-
 class Model {
   state: SliderState;
   callback: Function;
@@ -37,18 +36,16 @@ class Model {
       invert: false,
       customId: '',
       customClass: '',
-      onChangeFunction: () => {},
-      changeValueFunction: () => {},
+      onChangeFunction: (state) => undefined,
+      changeValueFunction: (value) => value,
     });
   }
   validateState() {
-    const { max, min, from, to, step, isRange, scaleStep } = this.state;
-
     if (this.state.min >= this.state.max) this.state.min = this.state.max - 1;
 
     if (this.state.scaleStep < 0) { this.state.scaleStep = 0; }
 
-    if (this.state.step > this.state.max) { this.state.step = this.state.max }
+    if (this.state.step > this.state.max) { this.state.step = this.state.max; }
     if (this.state.step <= 0.00001) { this.state.step = 0.00001; }
 
     this.state.from = checkStep({
@@ -68,7 +65,6 @@ class Model {
       value: this.state.to,
       step: this.state.step,
     });
-
 
     if (this.state.from < this.state.min) { this.state.from = this.state.min; }
     if (this.state.from > this.state.max) { this.state.from = this.state.max; }

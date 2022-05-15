@@ -4,8 +4,6 @@ import { rangeEvent } from './SubViewEvents/RangeTypes';
 import { scaleEvent } from './SubViewEvents/ScaleTypes';
 import { tipEvent } from './SubViewEvents/TipTypes';
 
-
-
 interface subViewCoordsValue {
   type: 'coords',
   data: {

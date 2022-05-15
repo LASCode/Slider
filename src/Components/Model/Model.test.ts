@@ -4,7 +4,6 @@ import { SliderState, SliderStateModified } from '../../Types/state';
 import { Model } from './Model';
 import Mock = jest.Mock;
 
-
 const defaultState: SliderState = {
   max: 100,
   min: 0,
@@ -19,8 +18,8 @@ const defaultState: SliderState = {
   invert: false,
   customId: '',
   customClass: '',
-  onChangeFunction: () => {},
-  changeValueFunction: () => {},
+  onChangeFunction: (state) => undefined,
+  changeValueFunction: (value) => value,
 };
 let componentInstance: Model;
 const modelCallback = (state: SliderState) => state;
@@ -96,20 +95,28 @@ describe('State validate', () => {
     expect(componentInstance.getState().scaleStep).toBe(0);
   });
   test('FROM cannot be greater than TO when isRange: true', () => {
-    componentInstance.setState({ from: 20, to: 10, handleSplit: true, isRange: true });
+    componentInstance.setState({
+      from: 20, to: 10, handleSplit: true, isRange: true,
+    });
     expect(componentInstance.getState().from).toBe(20);
     expect(componentInstance.getState().to).toBe(20);
 
-    componentInstance.setState({ from: 20, to: 10, handleSplit: false, isRange: true });
+    componentInstance.setState({
+      from: 20, to: 10, handleSplit: false, isRange: true,
+    });
     expect(componentInstance.getState().from).toBe(20);
     expect(componentInstance.getState().to).toBe(20);
   });
   test('FROM has no effect on TO when isRange: false', () => {
-    componentInstance.setState({ from: 20, to: 10, handleSplit: true, isRange: false });
+    componentInstance.setState({
+      from: 20, to: 10, handleSplit: true, isRange: false,
+    });
     expect(componentInstance.getState().from).toBe(20);
     expect(componentInstance.getState().to).toBe(10);
 
-    componentInstance.setState({ from: 20, to: 10, handleSplit: false, isRange: false });
+    componentInstance.setState({
+      from: 20, to: 10, handleSplit: false, isRange: false,
+    });
     expect(componentInstance.getState().from).toBe(20);
     expect(componentInstance.getState().to).toBe(10);
   });
@@ -154,9 +161,9 @@ describe('defaultState test', () => {
     });
   });
   test('ChangeValueFunc', () => {
-    componentInstance.getDefaultState().changeValueFunction();
+    componentInstance.getDefaultState().changeValueFunction('');
   });
   test('OnChangeFunc', () => {
-    componentInstance.getDefaultState().onChangeFunction();
+    componentInstance.getDefaultState().onChangeFunction(defaultState);
   });
 });

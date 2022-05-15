@@ -1,3 +1,17 @@
+interface PointerEventInit{
+  coalescedEvents?: PointerEvent[];
+  height?: number;
+  isPrimary?: boolean;
+  pointerId?: number;
+  pointerType?: string;
+  predictedEvents?: PointerEvent[];
+  pressure?: number;
+  tangentialPressure?: number;
+  tiltX?: number;
+  tiltY?: number;
+  twist?: number;
+  width?: number;
+}
 
 if (!global.PointerEvent) {
   class PointerEvent extends MouseEvent {

@@ -1,6 +1,5 @@
 import { viewSliderState } from './state';
 
-
 interface DefaultSubViewElement {
   sliderNode: HTMLElement,
   componentNode: HTMLElement,

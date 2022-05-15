@@ -12,8 +12,6 @@ import { TipTo } from './subView/Tip/TipTo';
 import { TipFrom } from './subView/Tip/TipFrom';
 import { Scale } from './subView/Scale/Scale';
 
-
-
 const defaultState: viewSliderState = {
   max: 100,
   min: -100,
@@ -49,7 +47,7 @@ describe('Initialization', () => {
   beforeEach(() => {
     const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
     componentInstance = new View({
-      rootNode: rootNode,
+      rootNode,
       callback: viewCallback,
     });
   });
@@ -86,7 +84,7 @@ describe('Callback and listeners', () => {
     testCallback = (event: subViewEvent) => event;
     testCallbackWithMock = jest.fn(testCallback);
     componentInstance = new View({
-      rootNode: rootNode,
+      rootNode,
       callback: testCallbackWithMock,
     });
   });
@@ -122,7 +120,7 @@ describe('SubView updates', () => {
   beforeEach(() => {
     const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
     componentInstance = new View({
-      rootNode: rootNode,
+      rootNode,
       callback: viewCallback,
     });
   });
@@ -155,7 +153,7 @@ describe('SliderNode custom class / id', () => {
   beforeEach(() => {
     const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
     componentInstance = new View({
-      rootNode: rootNode,
+      rootNode,
       callback: viewCallback,
     });
   });
@@ -203,14 +201,12 @@ describe('Public function', () => {
   beforeEach(() => {
     const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
     componentInstance = new View({
-      rootNode: rootNode,
+      rootNode,
       callback: viewCallback,
     });
   });
   test('getSize method should return correct slider size object', () => {
-    componentInstance.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 300, 300)
-    }
+    componentInstance.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 300, 300);
     const result = {
       width: 300,
       height: 300,
@@ -220,5 +216,3 @@ describe('Public function', () => {
     expect(componentInstance.getSize()).toEqual(result);
   });
 });
-
-

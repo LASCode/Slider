@@ -1,9 +1,9 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
 import { viewSliderState } from '../../../../Types/state';
 import { tipTarget, tipTypes } from '../../../../Types/SubViewEvents/TipTypes';
 
-class TipFrom extends subViewElement implements DefaultSubViewElement {
+class TipFrom extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
   componentNode!: HTMLElement;
   textNode!: HTMLElement;
@@ -42,7 +42,9 @@ class TipFrom extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { from, horizontal, isRange, invert, tips, handleSplit } = state;
+    const {
+      from, horizontal, isRange, invert, tips, handleSplit,
+    } = state;
     const currentStartPosition = horizontal ? 'left' : 'top';
     const oppositeStartPosition = horizontal ? 'top' : 'left';
     const valueWithInvert = invert ? 100 - from.percent : from.percent;

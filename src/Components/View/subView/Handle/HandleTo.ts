@@ -1,10 +1,9 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
 import { viewSliderState } from '../../../../Types/state';
 import { handleTarget, handleTypes } from '../../../../Types/SubViewEvents/HandleTypes';
 
-
-class HandleTo extends subViewElement implements DefaultSubViewElement {
+class HandleTo extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement
   componentNode!: HTMLElement
   target: handleTarget = 'handle'
@@ -38,7 +37,9 @@ class HandleTo extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { horizontal, to, isRange, invert, handleSplit } = state;
+    const {
+      horizontal, to, isRange, invert, handleSplit,
+    } = state;
     const currentStartPosition = horizontal ? 'left' : 'top';
     const oppositeStartPosition = horizontal ? 'top' : 'left';
     const valueWithInvert = invert ? 100 - to.percent : to.percent;
@@ -60,7 +61,6 @@ class HandleTo extends subViewElement implements DefaultSubViewElement {
       this.componentNode.classList.toggle('jqsHandle--vertical', !horizontal);
     }
   }
-
 
   onClick(event: PointerEvent) {
     event.stopPropagation();
@@ -106,6 +106,5 @@ class HandleTo extends subViewElement implements DefaultSubViewElement {
     document.removeEventListener('pointerup', this.onDrop);
   }
 }
-
 
 export { HandleTo };

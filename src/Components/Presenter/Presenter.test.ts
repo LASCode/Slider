@@ -26,8 +26,8 @@ const defaultState: SliderState = {
   invert: false,
   customId: '',
   customClass: '',
-  onChangeFunction: () => {},
-  changeValueFunction: () => {},
+  onChangeFunction: (state) => undefined,
+  changeValueFunction: (value) => value,
 };
 let componentInstance: Presenter;
 const rootNode: HTMLElement = document.createElement('div');
@@ -35,7 +35,7 @@ const rootNode: HTMLElement = document.createElement('div');
 describe('Initialization', () => {
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
   });
@@ -54,20 +54,18 @@ describe('subViewEvent validators', () => {
   let testEvent: subViewEvent;
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
-    componentInstance.View.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 100, 100)
-    };
+    componentInstance.View.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 100, 100);
     testEvent = {
       target: 'handle',
       type: 'from',
       action: 'click',
       value: {
-        x: 115
+        x: 115,
       },
-    }
+    };
   });
   test('lineEvent validator', () => {
     const testLineEvent: lineEvent = {
@@ -77,10 +75,11 @@ describe('subViewEvent validators', () => {
       value: {
         x: 0,
         y: 0,
-        total: 80
+        total: 80,
       },
     };
-    expect(componentInstance.lineValidate({ ...testLineEvent, value: { total: 80 } })).toEqual({ to: 80 })
+    expect(componentInstance.lineValidate({ ...testLineEvent, value: { total: 80 } }))
+      .toEqual({ to: 80 });
   });
   test('Creates View and Model on initialization', () => {
     expect(componentInstance.View).toBeDefined();
@@ -89,41 +88,41 @@ describe('subViewEvent validators', () => {
     expect(componentInstance.Model).toBeInstanceOf(Model);
   });
   test('Should translate X coordinate into total', () => {
-    componentInstance.Model.setState({ horizontal: true })
+    componentInstance.Model.setState({ horizontal: true });
     expect(componentInstance.getCorrectPositionFromEventValue({ ...testEvent, value: { x: 115 } }))
       .toBe(15);
   });
   test('Should translate Y coordinate into total', () => {
-    componentInstance.Model.setState({ horizontal: false })
+    componentInstance.Model.setState({ horizontal: false });
     expect(componentInstance.getCorrectPositionFromEventValue({ ...testEvent, value: { y: 115 } }))
       .toBe(15);
   });
   test('Should give priority to total', () => {
     expect(componentInstance.getCorrectPositionFromEventValue({
       ...testEvent,
-      value: { x: 115, y: 115, total: 200 }
+      value: { x: 115, y: 115, total: 200 },
     }))
       .toBe(200);
   });
   test('Should return the inverted value', () => {
-    componentInstance.Model.setState({ horizontal: true, invert: true })
+    componentInstance.Model.setState({ horizontal: true, invert: true });
     expect(componentInstance.getCorrectPositionFromEventValue({
       ...testEvent,
-      value: { x: 115, y: 115  }
+      value: { x: 115, y: 115 },
     }))
       .toBe(85);
 
-    componentInstance.Model.setState({ horizontal: false, invert: true })
+    componentInstance.Model.setState({ horizontal: false, invert: true });
     expect(componentInstance.getCorrectPositionFromEventValue({
       ...testEvent,
-      value: { x: 115, y: 115  }
+      value: { x: 115, y: 115 },
     }))
       .toBe(85);
   });
   test('Should return false if nothing is passed', () => {
     expect(componentInstance.getCorrectPositionFromEventValue({
       ...testEvent,
-      value: {}
+      value: {},
     }))
       .toBe(false);
   });
@@ -134,13 +133,11 @@ describe('lineEvent validate', () => {
   let result: SliderStateModified;
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
-    componentInstance.View.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 100, 100)
-    };
-    validateFunctionWithMock = jest.fn(componentInstance.lineValidate)
+    componentInstance.View.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 100, 100);
+    validateFunctionWithMock = jest.fn(componentInstance.lineValidate);
     componentInstance.lineValidate = validateFunctionWithMock;
 
     testLineEvent = {
@@ -150,7 +147,7 @@ describe('lineEvent validate', () => {
       value: {
         x: 0,
         y: 0,
-        total: 80
+        total: 80,
       },
     };
   });
@@ -174,25 +171,25 @@ describe('lineEvent validate', () => {
   });
   test('Should move FROM when clicked closer to it between handles', () => {
     componentInstance.Model.setState({ from: 20, to: 40 });
-    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 25 } })
+    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 25 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 25 });
   });
   test('Should move FROM when clicked closer to it outside handles', () => {
     componentInstance.Model.setState({ from: 20, to: 40 });
-    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 15 } })
+    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 15 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 15 });
   });
   test('Should move FROM when clicking between handles (FROM priority)', () => {
     componentInstance.Model.setState({ from: 0, to: 100 });
-    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 50 } })
+    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 50 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 50 });
   });
   test('Should change the value of FROM without affecting TO when { isRange: false }', () => {
     componentInstance.Model.setState({ from: 0, to: 50, isRange: false });
-    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 100 } })
+    componentInstance.viewEventHandler({ ...testLineEvent, value: { total: 100 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 100 });
   });
@@ -203,13 +200,11 @@ describe('rangeEvent validate', () => {
   let result: SliderStateModified;
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
-    componentInstance.View.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 100, 100)
-    };
-    validateFunctionWithMock = jest.fn(componentInstance.lineValidate)
+    componentInstance.View.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 100, 100);
+    validateFunctionWithMock = jest.fn(componentInstance.lineValidate);
     componentInstance.lineValidate = validateFunctionWithMock;
     testRangeEvent = {
       target: 'range',
@@ -218,7 +213,7 @@ describe('rangeEvent validate', () => {
       value: {
         x: 0,
         y: 0,
-        total: 80
+        total: 80,
       },
     };
   });
@@ -242,25 +237,25 @@ describe('rangeEvent validate', () => {
   });
   test('Should move FROM when clicked closer to it between handles', () => {
     componentInstance.Model.setState({ from: 20, to: 40 });
-    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 25 } })
+    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 25 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 25 });
   });
   test('Should move FROM when clicked closer to it outside handles', () => {
     componentInstance.Model.setState({ from: 20, to: 40 });
-    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 15 } })
+    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 15 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 15 });
   });
   test('Should move FROM when clicking between handles (FROM priority)', () => {
     componentInstance.Model.setState({ from: 0, to: 100 });
-    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 50 } })
+    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 50 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 50 });
   });
   test('Should change the value of FROM without affecting TO when { isRange: false }', () => {
     componentInstance.Model.setState({ from: 0, to: 50, isRange: false });
-    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 100 } })
+    componentInstance.viewEventHandler({ ...testRangeEvent, value: { total: 100 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 100 });
   });
@@ -271,13 +266,11 @@ describe('scaleEvent validate', () => {
   let result: SliderStateModified;
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
-    componentInstance.View.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 100, 100)
-    };
-    validateFunctionWithMock = jest.fn(componentInstance.lineValidate)
+    componentInstance.View.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 100, 100);
+    validateFunctionWithMock = jest.fn(componentInstance.lineValidate);
     componentInstance.lineValidate = validateFunctionWithMock;
     testScaleEvent = {
       target: 'scale',
@@ -286,7 +279,7 @@ describe('scaleEvent validate', () => {
       value: {
         x: 0,
         y: 0,
-        total: 80
+        total: 80,
       },
     };
   });
@@ -310,25 +303,25 @@ describe('scaleEvent validate', () => {
   });
   test('Should move FROM when clicked closer to it between handles', () => {
     componentInstance.Model.setState({ from: 20, to: 40 });
-    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 25 } })
+    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 25 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 25 });
   });
   test('Should move FROM when clicked closer to it outside handles', () => {
     componentInstance.Model.setState({ from: 20, to: 40 });
-    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 15 } })
+    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 15 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 15 });
   });
   test('Should move FROM when clicking between handles (FROM priority)', () => {
     componentInstance.Model.setState({ from: 0, to: 100 });
-    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 50 } })
+    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 50 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 50 });
   });
   test('Should change the value of FROM without affecting TO when { isRange: false }', () => {
     componentInstance.Model.setState({ from: 0, to: 50, isRange: false });
-    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 100 } })
+    componentInstance.viewEventHandler({ ...testScaleEvent, value: { total: 100 } });
     result = validateFunctionWithMock.mock.results[0].value;
     expect(result).toEqual({ from: 100 });
   });
@@ -341,13 +334,11 @@ describe('handleEvent validate', () => {
   let validateFunctionWithMock: Mock;
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
-    componentInstance.View.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 100, 100)
-    };
-    validateFunctionWithMock = jest.fn(componentInstance.handleValidate)
+    componentInstance.View.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 100, 100);
+    validateFunctionWithMock = jest.fn(componentInstance.handleValidate);
     componentInstance.handleValidate = validateFunctionWithMock;
     baseHandleEvent = {
       target: 'handle',
@@ -365,7 +356,7 @@ describe('handleEvent validate', () => {
       value: {
         x: 125,
         total: false,
-      }
+      },
     };
     testHandleMoveEvent = {
       ...baseHandleEvent,
@@ -373,7 +364,7 @@ describe('handleEvent validate', () => {
       value: {
         x: 150,
         total: false,
-      }
+      },
     };
     testHandleDropEvent = {
       ...baseHandleEvent,
@@ -381,23 +372,23 @@ describe('handleEvent validate', () => {
       value: {
         x: 150,
         total: false,
-      }
+      },
     };
   });
-  describe('handle type from',() => {
+  describe('handle type from', () => {
     beforeEach(() => {
       testHandleClickEvent = {
         ...testHandleClickEvent,
-        type: 'from'
-      }
+        type: 'from',
+      };
       testHandleMoveEvent = {
         ...testHandleMoveEvent,
-        type: 'from'
-      }
+        type: 'from',
+      };
       testHandleDropEvent = {
         ...testHandleDropEvent,
-        type: 'from'
-      }
+        type: 'from',
+      };
     });
     test('Should return an empty object if nothing is passed', () => {
       componentInstance.Model.setState({ from: 20, to: 40 });
@@ -499,20 +490,20 @@ describe('handleEvent validate', () => {
       expect(result).toEqual({ from: 80, to: 75 });
     });
   });
-  describe('handle type to',() => {
+  describe('handle type to', () => {
     beforeEach(() => {
       testHandleClickEvent = {
         ...testHandleClickEvent,
-        type: 'to'
-      }
+        type: 'to',
+      };
       testHandleMoveEvent = {
         ...testHandleMoveEvent,
-        type: 'to'
-      }
+        type: 'to',
+      };
       testHandleDropEvent = {
         ...testHandleDropEvent,
-        type: 'to'
-      }
+        type: 'to',
+      };
     });
     test('Should return an empty object if nothing is passed', () => {
       componentInstance.Model.setState({ from: 20, to: 40 });
@@ -623,13 +614,11 @@ describe('tipsEvent validate', () => {
   let validateFunctionWithMock: Mock;
   beforeEach(() => {
     componentInstance = new Presenter({
-      rootNode: rootNode,
+      rootNode,
       initialState: defaultState,
     });
-    componentInstance.View.sliderNode.getBoundingClientRect = () => {
-      return new DOMRect(100, 100, 100, 100)
-    };
-    validateFunctionWithMock = jest.fn(componentInstance.handleValidate)
+    componentInstance.View.sliderNode.getBoundingClientRect = () => new DOMRect(100, 100, 100, 100);
+    validateFunctionWithMock = jest.fn(componentInstance.handleValidate);
     componentInstance.handleValidate = validateFunctionWithMock;
     baseTipEvent = {
       target: 'tip',
@@ -647,7 +636,7 @@ describe('tipsEvent validate', () => {
       value: {
         x: 125,
         total: false,
-      }
+      },
     };
     testTipMoveEvent = {
       ...baseTipEvent,
@@ -655,7 +644,7 @@ describe('tipsEvent validate', () => {
       value: {
         x: 150,
         total: false,
-      }
+      },
     };
     testTipDropEvent = {
       ...baseTipEvent,
@@ -663,23 +652,23 @@ describe('tipsEvent validate', () => {
       value: {
         x: 150,
         total: false,
-      }
+      },
     };
   });
-  describe('handle type from',() => {
+  describe('handle type from', () => {
     beforeEach(() => {
       testTipClickEvent = {
         ...testTipClickEvent,
-        type: 'from'
-      }
+        type: 'from',
+      };
       testTipMoveEvent = {
         ...testTipMoveEvent,
-        type: 'from'
-      }
+        type: 'from',
+      };
       testTipDropEvent = {
         ...testTipDropEvent,
-        type: 'from'
-      }
+        type: 'from',
+      };
     });
     test('Should return an empty object if nothing is passed', () => {
       componentInstance.Model.setState({ from: 20, to: 40 });
@@ -781,20 +770,20 @@ describe('tipsEvent validate', () => {
       expect(result).toEqual({ from: 80, to: 75 });
     });
   });
-  describe('handle type to',() => {
+  describe('handle type to', () => {
     beforeEach(() => {
       testTipClickEvent = {
         ...testTipClickEvent,
-        type: 'to'
-      }
+        type: 'to',
+      };
       testTipMoveEvent = {
         ...testTipMoveEvent,
-        type: 'to'
-      }
+        type: 'to',
+      };
       testTipDropEvent = {
         ...testTipDropEvent,
-        type: 'to'
-      }
+        type: 'to',
+      };
     });
     test('Should return an empty object if nothing is passed', () => {
       componentInstance.Model.setState({ from: 20, to: 40 });
@@ -897,4 +886,3 @@ describe('tipsEvent validate', () => {
     });
   });
 });
-

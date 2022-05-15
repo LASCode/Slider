@@ -6,8 +6,6 @@ import { subViewEvent } from '../../../../Types/ViewEventTypes';
 import { tipEvent } from '../../../../Types/SubViewEvents/TipTypes';
 import Mock = jest.Mock;
 
-
-
 const defaultState: viewSliderState = {
   max: 100,
   min: -100,

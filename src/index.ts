@@ -1,14 +1,10 @@
-/* eslint-disable no-shadow */
-/* eslint-disable func-names */
-/* eslint-disable no-new */
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
+/* eslint-disable no-param-reassign */
+/* eslint-disable func-names */
 
 import './index.scss';
-import './utils/utils';
 import { Presenter } from './Components/Presenter/Presenter';
 import { SliderState, SliderStateModified, StateProperties } from './Types/state';
-
 
 interface init {
   type: 'init',
@@ -48,13 +44,6 @@ declare global {
       });
     },
     getState(this: JQuery<HTMLElement>): SliderState {
-      // const result: SliderStateModified[] = [];
-      // this.each((index, element) => {
-      //   if ($(element).data().jqSlider) {
-      //     // return result.push($(element).data().jqSlider.Model.getState());
-      //   }
-      // });
-      // return result;
       return $(this).data().jqSlider.Model.getState();
     },
   };
@@ -65,5 +54,3 @@ declare global {
     return this;
   };
 }(jQuery));
-
-

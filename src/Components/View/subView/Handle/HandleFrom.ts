@@ -1,10 +1,9 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
-import { viewSliderState} from '../../../../Types/state';
+import { viewSliderState } from '../../../../Types/state';
 import { handleTarget, handleTypes } from '../../../../Types/SubViewEvents/HandleTypes';
 
-
-class HandleFrom extends subViewElement implements DefaultSubViewElement {
+class HandleFrom extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement
   componentNode!: HTMLElement
   target: handleTarget = 'handle'
@@ -38,7 +37,9 @@ class HandleFrom extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { horizontal, from, invert, handleSplit } = state;
+    const {
+      horizontal, from, invert, handleSplit,
+    } = state;
     const currentStartPosition = horizontal ? 'left' : 'top';
     const oppositeStartPosition = horizontal ? 'top' : 'left';
     const valueWithInvert = invert ? 100 - from.percent : from.percent;
@@ -100,6 +101,5 @@ class HandleFrom extends subViewElement implements DefaultSubViewElement {
     document.removeEventListener('pointerup', this.onDrop);
   }
 }
-
 
 export { HandleFrom };

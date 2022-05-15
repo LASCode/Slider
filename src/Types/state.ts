@@ -12,8 +12,8 @@ interface SliderState {
   horizontal: boolean,
   invert: boolean,
   handleSplit: boolean,
-  onChangeFunction: Function,
-  changeValueFunction: Function;
+  onChangeFunction: (state: SliderState) => void,
+  changeValueFunction: (value: string) => string;
 }
 
 type SliderStateModified = Partial<SliderState>
@@ -50,5 +50,6 @@ interface presenterTempData {
   handleValue: number,
 }
 
-export {SliderState, SliderStateModified, StateProperties, viewSliderState, presenterTempData};
-
+export {
+  SliderState, SliderStateModified, StateProperties, viewSliderState, presenterTempData,
+};

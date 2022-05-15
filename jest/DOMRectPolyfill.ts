@@ -1,4 +1,3 @@
-
 if (!global.DOMRect) {
   class DOMRect {
     bottom: number = 0;

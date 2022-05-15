@@ -1,27 +1,27 @@
 /** @jest-environment jsdom */
 /* eslint-disable no-undef */
-import { subViewElement } from './subViewElement';
+import { SubViewElement } from './subViewElement';
 import { lineEvent } from '../../../Types/SubViewEvents/LineTypes';
 import { subViewEvent } from '../../../Types/ViewEventTypes';
 
 describe('Initialization tests:', () => {
-  let componentInstance: subViewElement;
+  let componentInstance: SubViewElement;
   beforeEach(() => {
-    componentInstance = new subViewElement();
+    componentInstance = new SubViewElement();
   });
   test('Initialized', () => {
-    expect(componentInstance).toBeInstanceOf(subViewElement);
+    expect(componentInstance).toBeInstanceOf(SubViewElement);
     expect(componentInstance).toBeDefined();
   });
 });
 
 describe('Callback tests:', () => {
-  let componentInstance: subViewElement;
+  let componentInstance: SubViewElement;
   let testSubViewEvent: lineEvent;
   let testCallbackFunction: (event: subViewEvent) => void;
   let testCallbackFunctionWithMock: (event: subViewEvent) => void;
   beforeEach(() => {
-    componentInstance = new subViewElement();
+    componentInstance = new SubViewElement();
     testSubViewEvent = {
       target: 'line',
       type: '',
@@ -49,12 +49,12 @@ describe('Callback tests:', () => {
 });
 
 describe('Memoization tests:', () => {
-  let componentInstance: subViewElement;
+  let componentInstance: SubViewElement;
   let data: any[];
   let modifyData: any[];
 
   beforeEach(() => {
-    componentInstance = new subViewElement();
+    componentInstance = new SubViewElement();
     data = [false, false, false];
     modifyData = [...data, true];
   });
@@ -70,4 +70,3 @@ describe('Memoization tests:', () => {
     expect(componentInstance.MemoState('testDataName', modifyData)).toBe(true);
   });
 });
-

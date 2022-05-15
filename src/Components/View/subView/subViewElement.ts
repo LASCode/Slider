@@ -1,6 +1,6 @@
 import { subViewEvent, viewCallbackFunction } from '../../../Types/ViewEventTypes';
 
-class subViewElement {
+class SubViewElement {
   componentNode!: HTMLElement
   isMounted: boolean = false
   MemoizedValue: {[key: string]: any[]} = {}
@@ -26,4 +26,4 @@ class subViewElement {
     return false;
   }
 }
-export { subViewElement };
+export { SubViewElement };

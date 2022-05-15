@@ -5,7 +5,6 @@ import { subViewEvent } from '../../../../Types/ViewEventTypes';
 import { rangeEvent } from '../../../../Types/SubViewEvents/RangeTypes';
 import Mock = jest.Mock;
 
-
 const defaultState: viewSliderState = {
   max: 100,
   min: -100,

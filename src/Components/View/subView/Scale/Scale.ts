@@ -1,11 +1,10 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
 import { viewSliderState } from '../../../../Types/state';
 import { valueToPercent } from '../../../../utils/utils';
 import { scaleTarget, scaleTypes } from '../../../../Types/SubViewEvents/ScaleTypes';
 
-
-class Scale extends subViewElement implements DefaultSubViewElement {
+class Scale extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
   componentNode!: HTMLElement;
   scaleElementsArray: Array<HTMLElement> = [];
@@ -38,7 +37,9 @@ class Scale extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { scaleItemsArray, min, max, horizontal, invert } = state;
+    const {
+      scaleItemsArray, min, max, horizontal, invert,
+    } = state;
 
     if (this.MemoState('Mount/Unmount component', [scaleItemsArray])) {
       if (!scaleItemsArray.length && this.isMounted) { this.destroyComponent(); }
@@ -50,8 +51,8 @@ class Scale extends subViewElement implements DefaultSubViewElement {
       const scaleArrayCopy = invert ? scaleItemsArray.reverse() : scaleItemsArray;
       scaleArrayCopy.forEach((el) => {
         const percent = valueToPercent({
-          max: max,
-          min: min,
+          max,
+          min,
           value: el,
         });
         const positionWithInvert = invert
@@ -73,7 +74,7 @@ class Scale extends subViewElement implements DefaultSubViewElement {
     this.scaleElementsArray.forEach((el) => el.remove());
     this.scaleElementsArray = [];
   }
-  createScaleItem(value: number, position: number, align: 'top' | 'left') {
+  createScaleItem(value: number, position: number, align: 'top' | 'left'): HTMLElement {
     const itemRootNode = document.createElement('div');
     itemRootNode.classList.add('jqsScale__item');
     itemRootNode.style[align] = `${position}%`;
@@ -85,7 +86,6 @@ class Scale extends subViewElement implements DefaultSubViewElement {
     itemRootNode.appendChild(itemTextNode);
     return itemRootNode;
   }
-
 
   onClick(e: PointerEvent) {
     const target = e.target as HTMLElement;

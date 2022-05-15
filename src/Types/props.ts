@@ -11,7 +11,7 @@ interface viewProps {
 }
 interface modelProps {
   state: SliderStateModified,
-  callback: Function
+  callback: (state: SliderState) => SliderState;
 }
 interface valueToPercentProps {
   max: number,
@@ -81,4 +81,3 @@ export {
   invertValueProps,
   checkStepProps,
 };
-

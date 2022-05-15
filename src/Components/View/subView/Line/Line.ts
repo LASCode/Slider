@@ -1,9 +1,9 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
 import { viewSliderState } from '../../../../Types/state';
 import { lineTarget, lineTypes } from '../../../../Types/SubViewEvents/LineTypes';
 
-class Line extends subViewElement implements DefaultSubViewElement {
+class Line extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
   componentNode!: HTMLElement;
   target: lineTarget = 'line';

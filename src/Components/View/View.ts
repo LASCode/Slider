@@ -5,10 +5,9 @@ import { viewSliderState } from '../../Types/state';
 import { HandleFrom } from './subView/Handle/HandleFrom';
 import { HandleTo } from './subView/Handle/HandleTo';
 import { subViewEvent, viewCallbackFunction } from '../../Types/ViewEventTypes';
-import { Scale} from './subView/Scale/Scale';
+import { Scale } from './subView/Scale/Scale';
 import { TipFrom } from './subView/Tip/TipFrom';
 import { TipTo } from './subView/Tip/TipTo';
-
 
 class View {
   rootNode: HTMLElement;
@@ -73,19 +72,20 @@ class View {
     }
   }
 
-
   subViewEventHandler(event: subViewEvent) {
     this.callback(event);
   }
 
   getSize() {
-    const { left, top, width, height } = this.sliderNode.getBoundingClientRect();
-    return  ({
-      width: width,
-      height: height,
+    const {
+      left, top, width, height,
+    } = this.sliderNode.getBoundingClientRect();
+    return ({
+      width,
+      height,
       clientOffSetX: left,
       clientOffSetY: top,
-    })
+    });
   }
 }
 

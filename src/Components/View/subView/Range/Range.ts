@@ -1,14 +1,13 @@
-import { subViewElement } from '../subViewElement';
+import { SubViewElement } from '../subViewElement';
 import { DefaultSubViewElement } from '../../../../Types/defaultSubViewElement';
 import { viewSliderState } from '../../../../Types/state';
 import { rangeTarget, rangeTypes } from '../../../../Types/SubViewEvents/RangeTypes';
 
-
-class Range extends subViewElement implements DefaultSubViewElement {
+class Range extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
   componentNode!: HTMLElement;
   target: rangeTarget = 'range';
-  type: rangeTypes = ''
+  type: rangeTypes = '';
 
   constructor(sliderNode: HTMLElement) {
     super();
@@ -36,7 +35,9 @@ class Range extends subViewElement implements DefaultSubViewElement {
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
   update(state: viewSliderState) {
-    const { horizontal, isRange, from, to, invert } = state;
+    const {
+      horizontal, isRange, from, to, invert,
+    } = state;
     const currentStartPosition = horizontal ? 'left' : 'top';
     const currentEndPosition = horizontal ? 'width' : 'height';
 

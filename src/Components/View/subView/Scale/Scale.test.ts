@@ -6,7 +6,6 @@ import { subViewEvent } from '../../../../Types/ViewEventTypes';
 import { scaleEvent } from '../../../../Types/SubViewEvents/ScaleTypes';
 import Mock = jest.Mock;
 
-
 const defaultState: viewSliderState = {
   max: 100,
   min: -100,
@@ -239,7 +238,8 @@ describe('Scale items', () => {
     componentInstance.update({ ...defaultState, scaleItemsArray: [-100, 0, 100] });
     componentInstance.removeAllScaleItems();
     expect(componentInstance.scaleElementsArray.length).toBe(0);
-    expect(componentInstance.componentNode.getElementsByClassName('jqsScale__item').length).toBe(0);
+    expect(componentInstance.componentNode.getElementsByClassName('jqsScale__item').length)
+      .toBe(0);
   });
   test('Must not redraw if identical array of scale numbers received', () => {
     let scaleItemsArray1: HTMLElement[] = [];

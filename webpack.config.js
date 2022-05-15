@@ -3,8 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-
-
 let entryPoints;
 let plugins;
 

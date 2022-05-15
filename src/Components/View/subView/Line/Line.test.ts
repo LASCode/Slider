@@ -6,8 +6,6 @@ import { subViewEvent } from '../../../../Types/ViewEventTypes';
 import { lineEvent } from '../../../../Types/SubViewEvents/LineTypes';
 import Mock = jest.Mock;
 
-
-
 const defaultState: viewSliderState = {
   max: 100,
   min: -100,
