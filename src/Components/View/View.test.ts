@@ -3,7 +3,6 @@
 import { View } from './View';
 import { viewSliderState } from '../../Types/state';
 import Mock = jest.Mock;
-import { viewProps } from '../../Types/props';
 import { subViewEvent, viewCallbackFunction } from '../../Types/ViewEventTypes';
 import { Line } from './subView/Line/Line';
 import { Range } from './subView/Range/Range';
@@ -119,6 +118,87 @@ describe('Callback and listeners', () => {
     expect(testCallbackWithMock).toBeCalledTimes(componentInstance.components.length);
   });
 });
+describe('SubView updates', () => {
+  beforeEach(() => {
+    const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
+    componentInstance = new View({
+      rootNode: rootNode,
+      callback: viewCallback,
+    });
+  });
+  test('Should correctly update all components', () => {
+    componentInstance.updateComponents({ ...defaultState, horizontal: true });
+    componentInstance.components.forEach((el) => {
+      let hasClass = false;
+      el.componentNode.classList.forEach((cl) => {
+        if (/^.*--horizontal/gm.test(cl)) hasClass = true;
+      });
+      expect(hasClass).toBe(true);
+    });
+
+    componentInstance.updateComponents({ ...defaultState, horizontal: false });
+    componentInstance.components.forEach((el) => {
+      let hasClass = false;
+      el.componentNode.classList.forEach((cl) => {
+        if (/^.*--vertical/gm.test(cl)) hasClass = true;
+      });
+      expect(hasClass).toBe(true);
+    });
+  });
+  test('The component update function can be called', () => {
+    componentInstance.updateComponents = jest.fn(componentInstance.updateComponents);
+    componentInstance.update({ ...defaultState });
+    expect(componentInstance.updateComponents).toBeCalled();
+  });
+});
+describe('SliderNode custom class / id', () => {
+  beforeEach(() => {
+    const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
+    componentInstance = new View({
+      rootNode: rootNode,
+      callback: viewCallback,
+    });
+  });
+  test('The sliderNode update function can be called', () => {
+    componentInstance.updateViewNode = jest.fn(componentInstance.updateViewNode);
+    componentInstance.update({ ...defaultState });
+    expect(componentInstance.updateViewNode).toBeCalled();
+  });
+
+  test('Should change the class of the slider if it does not match the current one', () => {
+    componentInstance.updateViewNode({ ...defaultState, customClass: 'test0' });
+    componentInstance.updateViewNode({ ...defaultState, customClass: 'test1' });
+    expect(componentInstance.sliderNode.classList.contains('test0')).toBe(false);
+    expect(componentInstance.sliderNode.classList.contains('test1')).toBe(true);
+  });
+  test('Should not change the class of the slider if it matches the current one', () => {
+    componentInstance.updateViewNode({ ...defaultState, customClass: 'test0' });
+    componentInstance.updateViewNode({ ...defaultState, customClass: 'test0' });
+    expect(componentInstance.sliderNode.classList.contains('test0')).toBe(true);
+  });
+  test('Should remove the custom class if an empty string is received', () => {
+    componentInstance.updateViewNode({ ...defaultState, customId: 'test0' });
+    componentInstance.updateViewNode({ ...defaultState, customClass: '' });
+    expect(componentInstance.sliderNode.classList.length).toBe(1);
+  });
+
+  test('Should change the id of the slider if it does not match the current one', () => {
+    componentInstance.updateViewNode({ ...defaultState, customId: 'test0' });
+    componentInstance.updateViewNode({ ...defaultState, customId: 'test1' });
+    expect(componentInstance.sliderNode.id).toBe('test1');
+  });
+  test('Should not change the id of the slider if it matches the current one', () => {
+    componentInstance.updateViewNode({ ...defaultState, customId: 'test0' });
+    componentInstance.updateViewNode({ ...defaultState, customId: 'test0' });
+    expect(componentInstance.sliderNode.id).toBe('test0');
+  });
+  test('Must remove the id attribute if an empty string is received', () => {
+    componentInstance.updateViewNode({ ...defaultState, customId: 'test0' });
+    componentInstance.updateViewNode({ ...defaultState, customId: '' });
+    expect(componentInstance.sliderNode.getAttribute('id')).toBeFalsy();
+    expect(componentInstance.sliderNode.id).toBeFalsy();
+  });
+});
 describe('Public function', () => {
   beforeEach(() => {
     const viewCallback: viewCallbackFunction = (event: subViewEvent) => event;
@@ -126,18 +206,19 @@ describe('Public function', () => {
       rootNode: rootNode,
       callback: viewCallback,
     });
-    document.body.appendChild(rootNode);
   });
   test('getSize method should return correct slider size object', () => {
-    componentInstance.sliderNode.style.width = '1000';
-    console.log(componentInstance.getSize());
-    console.log(componentInstance.getOffSet());
-    console.log(componentInstance.sliderNode.clientWidth);
-    console.log(componentInstance.sliderNode.getBoundingClientRect());
+    componentInstance.sliderNode.getBoundingClientRect = () => {
+      return new DOMRect(100, 100, 300, 300)
+    }
+    const result = {
+      width: 300,
+      height: 300,
+      clientOffSetX: 100,
+      clientOffSetY: 100,
+    };
+    expect(componentInstance.getSize()).toEqual(result);
   });
 });
 
-// Element.prototype.getBoundingClientRect = jest.fn(() => {
-//   return new DOMRect(0, 0, 100, 100);
-// });
-// console.log(componentInstance.sliderNode.getBoundingClientRect())
+

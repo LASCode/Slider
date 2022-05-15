@@ -182,8 +182,6 @@ describe('Callback and listeners', () => {
       type: '',
       action: 'click',
       value: {
-        x: 0,
-        y: 0,
         total: false,
       },
     };
