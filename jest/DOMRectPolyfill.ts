@@ -14,6 +14,10 @@ if (!global.DOMRect) {
       this.x = x;
       this.width = width;
       this.height = height;
+      this.top = (y > 0 ? y : y + height);
+      this.left = (x > 0 ? x : x + width);
+      this.right = (x > 0 ? x + width : x);
+      this.bottom = (y > 0 ? y + height : y);
     }
   }
   global.DOMRect = DOMRect as any;
