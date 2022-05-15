@@ -18,9 +18,9 @@ interface subViewTotalValue {
   data: number,
 }
 interface subViewValue {
-  x: number,
-  y: number,
-  total: number | boolean,
+  x?: number | false,
+  y?: number | false,
+  total?: number | false,
 }
 
 type subViewEvent = lineEvent | handleEvent | rangeEvent | scaleEvent | tipEvent;
