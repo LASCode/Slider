@@ -33,7 +33,10 @@ declare global {
     init(this: JQuery<HTMLElement>, options: SliderStateModified) {
       this.each((index, element) => {
         if (!$(element).data().jqSlider) {
-          $(element).data().jqSlider = new Presenter(element, options);
+          $(element).data().jqSlider = new Presenter({
+            rootNode: element,
+            initialState: options,
+          });
         }
       });
     },
