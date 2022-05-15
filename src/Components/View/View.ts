@@ -79,19 +79,13 @@ class View {
   }
 
   getSize() {
-    return ({
-      width: this.sliderNode.clientWidth,
-      height: this.sliderNode.clientHeight,
-    });
-  }
-  getOffSet() {
-    const { left, top } = this.sliderNode.getBoundingClientRect();
-    return ({
+    const { left, top, width, height } = this.sliderNode.getBoundingClientRect();
+    return  ({
+      width: width,
+      height: height,
       clientOffSetX: left,
       clientOffSetY: top,
-      offSetX: this.sliderNode.offsetLeft,
-      offSetY: this.sliderNode.offsetTop,
-    });
+    })
   }
 }
 
