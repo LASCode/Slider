@@ -49,16 +49,21 @@ class Scale extends subViewElement implements DefaultSubViewElement {
       this.removeAllScaleItems();
       const scaleArrayCopy = invert ? scaleItemsArray.reverse() : scaleItemsArray;
       scaleArrayCopy.forEach((el) => {
+        const percent = valueToPercent({
+          max: max,
+          min: min,
+          value: el,
+        });
         const positionWithInvert = invert
-          ? 100 - valueToPercent(el, max, min)
-          : valueToPercent(el, max, min);
+          ? 100 - percent
+          : percent;
         const element = this.createScaleItem(el, positionWithInvert, horizontal ? 'left' : 'top');
         this.componentNode.appendChild(element);
         this.scaleElementsArray.push(element);
       });
     }
 
-    if (this.MemoState('Class modifiers data', [horizontal, invert])) {
+    if (this.MemoState('Class modifiers data', [horizontal, invert, scaleItemsArray])) {
       this.componentNode.classList.toggle('jqsScale--horizontal', horizontal);
       this.componentNode.classList.toggle('jqsScale--vertical', !horizontal);
     }
@@ -90,8 +95,6 @@ class Scale extends subViewElement implements DefaultSubViewElement {
         type: this.type,
         action: 'click',
         value: {
-          x: e.clientX,
-          y: e.clientY,
           total: Number(target.innerHTML),
         },
       });
