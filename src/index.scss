@@ -69,6 +69,7 @@
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
+  touch-action: none;
   &--horizontal{
     margin-bottom: 40px;
     transform: translateX(-50%);
@@ -82,6 +83,10 @@
   }
   &--pressedLast{
     z-index: 6;
+  }
+
+  &__text {
+    user-select: none;
   }
 }
 .jqsScale {
