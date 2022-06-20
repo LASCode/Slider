@@ -9,11 +9,13 @@
     "lint": "eslint **/*.ts",
     "serve": "cross-env NODE_ENV=development webpack serve --hot",
     "prod": "cross-env NODE_ENV=production webpack",
-    "prodWithDemo": "cross-env NODE_ENV=productionWithDemoPage webpack"
+    "prodWithDemo": "cross-env NODE_ENV=productionWithDemoPage webpack",
+    "deploy": "gh-pages -d dist"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "gh-pages": "^4.0.0",
     "jquery": "^3.6.0"
   },
   "devDependencies": {
