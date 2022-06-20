@@ -32,6 +32,7 @@ const defaultState: viewSliderState = {
   scaleItemsArray: [-1000, -750, -500, -250, 0, 250, 500, 750, 1000],
   customClass: 'slider1',
   customId: 'UwU',
+  tipsValueFunction: (value) => `${value}`,
 };
 let componentInstance: Range;
 let rootNode: HTMLElement;

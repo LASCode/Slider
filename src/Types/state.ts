@@ -13,7 +13,7 @@ interface SliderState {
   invert: boolean,
   handleSplit: boolean,
   onChangeFunction: (state: SliderState) => void,
-  changeValueFunction: (value: string) => string;
+  tipsValueFunction: (value: number) => string;
 }
 
 type SliderStateModified = Partial<SliderState>
@@ -40,6 +40,7 @@ interface viewSliderState {
   scaleItemsArray: number[],
   customClass: string,
   customId: string,
+  tipsValueFunction: SliderState['tipsValueFunction'],
 }
 
 interface presenterTempData {

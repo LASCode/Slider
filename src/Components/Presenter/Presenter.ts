@@ -164,7 +164,7 @@ class Presenter {
 
   convertStateToViewState(state: SliderState): viewSliderState {
     const {
-      from, to, max, min, horizontal, scaleStep,
+      from, to, max, min, horizontal, scaleStep, tipsValueFunction,
     } = state;
     const { height, width } = this.View.getSize();
     return ({
@@ -208,6 +208,7 @@ class Presenter {
         min,
         step: scaleStep,
       }),
+      tipsValueFunction,
     });
   }
   getCorrectPositionFromEventValue(event: subViewEvent): number | false {

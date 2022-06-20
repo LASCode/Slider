@@ -43,7 +43,7 @@ class TipFrom extends SubViewElement implements DefaultSubViewElement {
   }
   update(state: viewSliderState) {
     const {
-      from, horizontal, isRange, invert, tips, handleSplit,
+      from, horizontal, isRange, invert, tips, handleSplit, tipsValueFunction,
     } = state;
     const currentStartPosition = horizontal ? 'left' : 'top';
     const oppositeStartPosition = horizontal ? 'top' : 'left';
@@ -55,7 +55,7 @@ class TipFrom extends SubViewElement implements DefaultSubViewElement {
     }
 
     if (this.MemoState('move', [from, horizontal, isRange, invert, handleSplit, tips])) {
-      this.textNode.innerText = `${from.total}`;
+      this.textNode.innerText = tipsValueFunction(from.total);
       this.componentNode.style[currentStartPosition] = `${valueWithInvert}%`;
       this.componentNode.style[oppositeStartPosition] = '';
     }

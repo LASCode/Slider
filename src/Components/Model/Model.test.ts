@@ -19,7 +19,7 @@ const defaultState: SliderState = {
   customId: '',
   customClass: '',
   onChangeFunction: (state) => undefined,
-  changeValueFunction: (value) => value,
+  tipsValueFunction: (value) => `${value}`,
 };
 let componentInstance: Model;
 const modelCallback = (state: SliderState) => state;
@@ -161,7 +161,7 @@ describe('defaultState test', () => {
     });
   });
   test('ChangeValueFunc', () => {
-    componentInstance.getDefaultState().changeValueFunction('');
+    componentInstance.getDefaultState().tipsValueFunction(5);
   });
   test('OnChangeFunc', () => {
     componentInstance.getDefaultState().onChangeFunction(defaultState);

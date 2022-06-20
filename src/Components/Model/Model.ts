@@ -37,7 +37,7 @@ class Model {
       customId: '',
       customClass: '',
       onChangeFunction: (state) => undefined,
-      changeValueFunction: (value) => value,
+      tipsValueFunction: (value) => `${value}`,
     });
   }
   validateState() {

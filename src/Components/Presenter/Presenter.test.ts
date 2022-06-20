@@ -27,7 +27,7 @@ const defaultState: SliderState = {
   customId: '',
   customClass: '',
   onChangeFunction: (state) => undefined,
-  changeValueFunction: (value) => value,
+  tipsValueFunction: (value) => `${value}`,
 };
 let componentInstance: Presenter;
 const rootNode: HTMLElement = document.createElement('div');
