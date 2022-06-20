@@ -1,0 +1,33 @@
+.configurator {
+  padding: 10px 5px;
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 5px;
+  }
+  &__name {
+    text-align: left;
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    line-height: 25px;
+  }
+  &__input > input {
+    outline: transparent;
+    height: 25px;
+    width: 100%;
+  }
+  &__input[type='number'] {
+    outline: transparent;
+    height: 25px;
+    width: 100%;
+  }
+  &__input[type='text'] {
+    outline: transparent;
+    height: 25px;
+    width: 100%;
+  }
+  &__input[type='checkbox'] {
+    margin-top: 5px;
+  }
+}

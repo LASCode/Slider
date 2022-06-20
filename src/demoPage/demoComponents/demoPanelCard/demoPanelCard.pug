@@ -1,0 +1,8 @@
+include ../configurator/configurator
+
+mixin demoPanelCard ()
+	.demoPanelCard.js-demoPanelRoot
+		.demoPanelCard__body.js-demoPanelBody
+			.demoPanelCard__configurator.js-demoPanelConfig
+				+configurator()
+			.demoPanelCard__slider.js-demoPanelSliderNode

@@ -1,0 +1,28 @@
+mixin configurator ()
+	-
+		const inputArray = [
+			{ type: 'number', data: 'max', name: 'Max', defaultValue: 0 },
+			{ type: 'number', data: 'min', name: 'Min', defaultValue: 0 },
+			{ type: 'number', data: 'from', name: 'From', defaultValue: 0 },
+			{ type: 'number', data: 'to', name: 'To', defaultValue: 0 },
+			{ type: 'number', data: 'step', name: 'Step', defaultValue: 0 },
+			{ type: 'number', data: 'scaleStep', name: 'ScaleStep', defaultValue: 0 },
+			{ type: 'text', data: 'customClass', name: 'CustomClass', defaultValue: '' },
+			{ type: 'text', data: 'customId', name: 'CustomId', defaultValue: '' },
+			{ type: 'checkbox', data: 'horizontal', name: 'horizontal', defaultValue: false },
+			{ type: 'checkbox', data: 'handleSplit', name: 'handleSplit', defaultValue: false },
+			{ type: 'checkbox', data: 'isRange', name: 'isRange', defaultValue: false },
+			{ type: 'checkbox', data: 'invert', name: 'invert', defaultValue: false },
+		]
+	.configurator
+		for input in inputArray
+			label.configurator__item
+				.configurator__name
+					span= input.name + ":"
+				.configurator__inputBox
+					if (input.type === 'checkbox')
+						input(type=input.type, name=input.data, checked=input.defaultValue).configurator__input
+					if (input.type === 'number')
+						input(type=input.type, name=input.data, value=input.defaultValue).configurator__input
+					if (input.type === 'text')
+						input(type=input.type, name=input.data, value=input.defaultValue).configurator__input

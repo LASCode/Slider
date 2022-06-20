@@ -1,5 +1,8 @@
-import './demoPage.scss';
+import './index.pug';
+import './index.scss';
 import '../index.ts';
+import './demoComponents/demoPanelCard/demoPanelCard.scss';
+import './demoComponents/configurator/configurator.scss';
 import { SliderState, SliderStateModified, StateProperties } from '../Types/state';
 
 const initialDataArr: SliderStateModified[] = [
@@ -30,6 +33,7 @@ const initialDataArr: SliderStateModified[] = [
     handleSplit: true,
     customClass: 'slider2',
     customId: '(͡° ͜ʖ ͡°)',
+    tipsValueFunction: (value) => `${value} Р`,
   },
   {
     max: 10000,
@@ -44,6 +48,7 @@ const initialDataArr: SliderStateModified[] = [
     handleSplit: false,
     customClass: 'slider3',
     customId: '(O,o)',
+    tipsValueFunction: (value) => `${value}`,
   },
   {
     max: 500,
@@ -68,8 +73,8 @@ class DemoPanel {
   inputElementsArray: HTMLInputElement[] = []
   constructor(element: HTMLElement, options: SliderStateModified) {
     this.rootNode = element;
-    this.sliderNode = $(this.rootNode).find('.demoPanel__slider');
-    this.panelNode = $(this.rootNode).find('.demoPanel__panel');
+    this.sliderNode = $(this.rootNode).find('.js-demoPanelSliderNode');
+    this.panelNode = $(this.rootNode).find('.js-demoPanelConfig');
     this.createSlider({ ...options, onChangeFunction: this.onChangeSlider.bind(this) });
     this.getInputs();
     this.setInputListener();
@@ -135,7 +140,7 @@ class DemoPanel {
 }
 
 $(document).ready(() => {
-  $('.js-demoPanel').each((index, element) => {
+  $('.js-demoPanelRoot').each((index, element) => {
     new DemoPanel(element, initialDataArr[index]);
   });
 });
