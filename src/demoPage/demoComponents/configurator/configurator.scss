@@ -12,17 +12,7 @@
     font-size: 14px;
     line-height: 25px;
   }
-  &__input > input {
-    outline: transparent;
-    height: 25px;
-    width: 100%;
-  }
-  &__input[type='number'] {
-    outline: transparent;
-    height: 25px;
-    width: 100%;
-  }
-  &__input[type='text'] {
+  &__input:not([type='checkbox']) {
     outline: transparent;
     height: 25px;
     width: 100%;
