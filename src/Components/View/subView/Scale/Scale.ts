@@ -6,9 +6,13 @@ import { scaleTarget, scaleTypes } from '../../../../Types/SubViewEvents/ScaleTy
 
 class Scale extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
+
   componentNode!: HTMLElement;
+
   scaleElementsArray: Array<HTMLElement> = [];
+
   target: scaleTarget = 'scale';
+
   type: scaleTypes = '';
 
   constructor(sliderNode: HTMLElement) {
@@ -16,6 +20,7 @@ class Scale extends SubViewElement implements DefaultSubViewElement {
     this.sliderNode = sliderNode;
     this.createComponent();
   }
+
   createComponent() {
     const element = document.createElement('div');
     element.classList.add('jqsScale');
@@ -24,18 +29,22 @@ class Scale extends SubViewElement implements DefaultSubViewElement {
     this.isMounted = true;
     this.setListeners();
   }
+
   destroyComponent() {
     this.componentNode.remove();
     this.removeListeners();
     this.isMounted = false;
   }
+
   removeListeners() {
     this.componentNode.removeEventListener('pointerdown', this.onClick);
   }
+
   setListeners() {
     this.onClick = this.onClick.bind(this);
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
+
   update(state: viewSliderState) {
     const {
       scaleItemsArray, min, max, horizontal, invert,
@@ -74,6 +83,7 @@ class Scale extends SubViewElement implements DefaultSubViewElement {
     this.scaleElementsArray.forEach((el) => el.remove());
     this.scaleElementsArray = [];
   }
+
   createScaleItem(value: number, position: number, align: 'top' | 'left'): HTMLElement {
     const itemRootNode = document.createElement('div');
     itemRootNode.classList.add('jqsScale__item');

@@ -5,8 +5,11 @@ import { handleTarget, handleTypes } from '../../../../Types/SubViewEvents/Handl
 
 class HandleFrom extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement
+
   componentNode!: HTMLElement
+
   target: handleTarget = 'handle'
+
   type: handleTypes = 'from'
 
   constructor(sliderNode: HTMLElement) {
@@ -14,6 +17,7 @@ class HandleFrom extends SubViewElement implements DefaultSubViewElement {
     this.sliderNode = sliderNode;
     this.createComponent();
   }
+
   createComponent() {
     const element = document.createElement('div');
     element.classList.add('jqsHandle');
@@ -22,20 +26,24 @@ class HandleFrom extends SubViewElement implements DefaultSubViewElement {
     this.isMounted = true;
     this.setListeners();
   }
+
   destroyComponent() {
     this.removeListeners();
     this.componentNode.remove();
     this.isMounted = false;
   }
+
   removeListeners() {
     this.componentNode.removeEventListener('pointerdown', this.onClick);
   }
+
   setListeners() {
     this.onClick = this.onClick.bind(this);
     this.onMove = this.onMove.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
+
   update(state: viewSliderState) {
     const {
       horizontal, from, invert, handleSplit,
@@ -72,6 +80,7 @@ class HandleFrom extends SubViewElement implements DefaultSubViewElement {
     document.addEventListener('pointermove', this.onMove);
     document.addEventListener('pointerup', this.onDrop);
   }
+
   onMove(event: PointerEvent) {
     event.stopPropagation();
     this.sendAction({
@@ -85,6 +94,7 @@ class HandleFrom extends SubViewElement implements DefaultSubViewElement {
       },
     });
   }
+
   onDrop(event: PointerEvent) {
     event.stopPropagation();
     this.sendAction({

@@ -11,9 +11,13 @@ import { TipTo } from './subView/Tip/TipTo';
 
 class View {
   rootNode: HTMLElement;
+
   sliderNode!: HTMLElement;
+
   callback: viewCallbackFunction;
+
   tempData: {currentCustomClass: string, currentCustomId: string} = { currentCustomClass: '', currentCustomId: '' }
+
   components!: Array<Line | Range | HandleTo | HandleFrom | TipFrom | TipTo | Scale>
 
   constructor(props: viewProps) {
@@ -30,6 +34,7 @@ class View {
     this.rootNode.appendChild(element);
     this.sliderNode = element;
   }
+
   createSubViewComponents() {
     this.components.push(new Line(this.sliderNode));
     this.components.push(new Range(this.sliderNode));
@@ -40,13 +45,16 @@ class View {
     this.components.push(new Scale(this.sliderNode));
     this.components.forEach((el) => el.setCallback(this.subViewEventHandler.bind(this)));
   }
+
   update(state: viewSliderState) {
     this.updateViewNode(state);
     this.updateComponents(state);
   }
+
   updateComponents(state: viewSliderState) {
     this.components.forEach((component) => component.update(state));
   }
+
   updateViewNode(state: viewSliderState) {
     const { customClass, customId } = state;
     const { currentCustomClass, currentCustomId } = this.tempData;

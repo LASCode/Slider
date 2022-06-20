@@ -16,8 +16,11 @@ import { tipEvent } from '../../Types/SubViewEvents/TipTypes';
 
 class Presenter {
   rootNode: HTMLElement;
+
   View: View;
+
   Model: Model;
+
   private tempData: presenterTempData = {
     handlePressedLast: null,
     handleMovingNow: null,
@@ -117,6 +120,7 @@ class Presenter {
 
     return result;
   }
+
   lineValidate(event: subViewEvent): SliderStateModified {
     const { to, from, isRange } = this.Model.getState();
     const { action } = event;
@@ -151,13 +155,16 @@ class Presenter {
     }
     this.updateModel(modelEvent);
   }
+
   modelEventHandler(state: SliderState): SliderState {
     this.updateView(state);
     return state;
   }
+
   updateView(state: SliderState): void {
     this.View.update(this.convertStateToViewState(state));
   }
+
   public updateModel(event: SliderStateModified): void {
     this.Model.setState(event);
   }
@@ -211,6 +218,7 @@ class Presenter {
       tipsValueFunction,
     });
   }
+
   getCorrectPositionFromEventValue(event: subViewEvent): number | false {
     let result = 0;
     const {
@@ -255,6 +263,7 @@ class Presenter {
 
     return result;
   }
+
   getCoordsWithOffSet(coords: number, type: 'x' | 'y'): number {
     const { clientOffSetX, clientOffSetY } = this.View.getSize();
     return coords - (type === 'x' ? clientOffSetX : clientOffSetY);

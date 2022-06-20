@@ -5,8 +5,11 @@ import { lineTarget, lineTypes } from '../../../../Types/SubViewEvents/LineTypes
 
 class Line extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
+
   componentNode!: HTMLElement;
+
   target: lineTarget = 'line';
+
   type: lineTypes = '';
 
   constructor(sliderNode: HTMLElement) {
@@ -14,6 +17,7 @@ class Line extends SubViewElement implements DefaultSubViewElement {
     this.sliderNode = sliderNode;
     this.createComponent();
   }
+
   createComponent() {
     const element = document.createElement('div');
     element.classList.add('jqsLine');
@@ -22,18 +26,22 @@ class Line extends SubViewElement implements DefaultSubViewElement {
     this.isMounted = true;
     this.setListeners();
   }
+
   destroyComponent() {
     this.removeListeners();
     this.componentNode.remove();
     this.isMounted = false;
   }
+
   removeListeners() {
     this.componentNode.removeEventListener('pointerdown', this.onClick);
   }
+
   setListeners() {
     this.onClick = this.onClick.bind(this);
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
+
   update(state: viewSliderState) {
     const { horizontal } = state;
 

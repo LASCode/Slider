@@ -16,14 +16,23 @@ interface PointerEventInit{
 if (!global.PointerEvent) {
   class PointerEvent extends MouseEvent {
     public height?: number;
+
     public isPrimary?: boolean;
+
     public pointerId?: number;
+
     public pointerType?: string;
+
     public pressure?: number;
+
     public tangentialPressure?: number;
+
     public tiltX?: number;
+
     public tiltY?: number;
+
     public twist?: number;
+
     public width?: number;
 
     constructor(type: string, params: PointerEventInit = {}) {

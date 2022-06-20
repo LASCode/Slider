@@ -5,9 +5,13 @@ import { tipTarget, tipTypes } from '../../../../Types/SubViewEvents/TipTypes';
 
 class TipTo extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
+
   componentNode!: HTMLElement;
+
   textNode!: HTMLElement;
+
   target: tipTarget = 'tip';
+
   type: tipTypes = 'to';
 
   constructor(sliderNode: HTMLElement) {
@@ -15,6 +19,7 @@ class TipTo extends SubViewElement implements DefaultSubViewElement {
     this.sliderNode = sliderNode;
     this.createComponent();
   }
+
   createComponent() {
     const element = document.createElement('div');
     element.classList.add('jqsTips');
@@ -27,20 +32,24 @@ class TipTo extends SubViewElement implements DefaultSubViewElement {
     this.isMounted = true;
     this.setListeners();
   }
+
   destroyComponent() {
     this.removeListeners();
     this.componentNode.remove();
     this.isMounted = false;
   }
+
   removeListeners() {
     this.componentNode.removeEventListener('pointerdown', this.onClick);
   }
+
   setListeners() {
     this.onClick = this.onClick.bind(this);
     this.onMove = this.onMove.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
+
   update(state: viewSliderState) {
     const {
       to, horizontal, isRange, invert, tips, handleSplit, tipsValueFunction,
@@ -84,6 +93,7 @@ class TipTo extends SubViewElement implements DefaultSubViewElement {
     document.addEventListener('pointermove', this.onMove);
     document.addEventListener('pointerup', this.onDrop);
   }
+
   onMove(event: PointerEvent) {
     event.stopPropagation();
     this.sendAction({
@@ -97,6 +107,7 @@ class TipTo extends SubViewElement implements DefaultSubViewElement {
       },
     });
   }
+
   onDrop(event: PointerEvent) {
     event.stopPropagation();
     this.sendAction({

@@ -68,9 +68,13 @@ const initialDataArr: SliderStateModified[] = [
 
 class DemoPanel {
   rootNode: HTMLElement
+
   sliderNode: JQuery
+
   panelNode: JQuery
+
   inputElementsArray: HTMLInputElement[] = []
+
   constructor(element: HTMLElement, options: SliderStateModified) {
     this.rootNode = element;
     this.sliderNode = $(this.rootNode).find('.js-demoPanelSliderNode');
@@ -80,25 +84,30 @@ class DemoPanel {
     this.setInputListener();
     this.setValues(this.getState());
   }
+
   createSlider(options: SliderStateModified) {
     this.sliderNode.jqSlider({
       type: 'init',
       data: options,
     });
   }
+
   onChangeSlider() {
     this.setValues(this.getState());
   }
+
   getInputs() {
     this.panelNode.find('input').each((index, element) => {
       this.inputElementsArray.push(element);
     });
   }
+
   setInputListener() {
     this.inputElementsArray.forEach((el) => {
       el.addEventListener('input', this.onChange.bind(this));
     });
   }
+
   onChange(e: Event) {
     const target = e.target as HTMLInputElement;
     if (target.type === 'checkbox') {
@@ -110,12 +119,14 @@ class DemoPanel {
       this.setState({ [target.name]: target.value });
     }
   }
+
   setState(state: SliderStateModified) {
     this.sliderNode.jqSlider({
       type: 'update',
       data: state,
     });
   }
+
   setValues(state: SliderState) {
     this.inputElementsArray.forEach((el) => {
       if (el instanceof HTMLInputElement) {
@@ -131,6 +142,7 @@ class DemoPanel {
       }
     });
   }
+
   getState(): SliderState {
     return <SliderState> this.sliderNode.jqSlider({
       type: 'getState',

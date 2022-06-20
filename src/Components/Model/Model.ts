@@ -4,23 +4,26 @@ import { modelProps } from '../../Types/props';
 
 class Model {
   state: SliderState;
+
   callback: Function;
-  componentInstance: any;
 
   constructor(props: modelProps) {
     this.state = { ...this.getDefaultState(), ...props.state };
     this.callback = props.callback;
     this.validateState();
   }
+
   getState(): SliderState {
     return this.state;
   }
+
   setState(properties: SliderStateModified) {
     this.state = { ...this.state, ...properties };
     this.validateState();
     this.state.onChangeFunction(this.state);
     this.callback(this.state);
   }
+
   getDefaultState(): SliderState {
     return ({
       max: 100,
@@ -36,10 +39,11 @@ class Model {
       invert: false,
       customId: '',
       customClass: '',
-      onChangeFunction: (state) => undefined,
+      onChangeFunction: (state) => {},
       tipsValueFunction: (value) => `${value}`,
     });
   }
+
   validateState() {
     if (this.state.min >= this.state.max) this.state.min = this.state.max - 1;
 

@@ -5,8 +5,11 @@ import { rangeTarget, rangeTypes } from '../../../../Types/SubViewEvents/RangeTy
 
 class Range extends SubViewElement implements DefaultSubViewElement {
   sliderNode: HTMLElement;
+
   componentNode!: HTMLElement;
+
   target: rangeTarget = 'range';
+
   type: rangeTypes = '';
 
   constructor(sliderNode: HTMLElement) {
@@ -14,6 +17,7 @@ class Range extends SubViewElement implements DefaultSubViewElement {
     this.sliderNode = sliderNode;
     this.createComponent();
   }
+
   createComponent() {
     const element = document.createElement('div');
     element.classList.add('jqsRange');
@@ -22,18 +26,22 @@ class Range extends SubViewElement implements DefaultSubViewElement {
     this.isMounted = true;
     this.setListeners();
   }
+
   destroyComponent() {
     this.removeListeners();
     this.componentNode.remove();
     this.isMounted = false;
   }
+
   removeListeners() {
     this.componentNode.removeEventListener('pointerdown', this.onClick);
   }
+
   setListeners() {
     this.onClick = this.onClick.bind(this);
     this.componentNode.addEventListener('pointerdown', this.onClick);
   }
+
   update(state: viewSliderState) {
     const {
       horizontal, isRange, from, to, invert,

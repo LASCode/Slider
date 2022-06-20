@@ -2,15 +2,21 @@ import { subViewEvent, viewCallbackFunction } from '../../../Types/ViewEventType
 
 class SubViewElement {
   componentNode!: HTMLElement
+
   isMounted: boolean = false
+
   MemoizedValue: {[key: string]: any[]} = {}
+
   callback!: viewCallbackFunction;
+
   setCallback(callback: viewCallbackFunction) {
     this.callback = callback;
   }
+
   sendAction(event: subViewEvent) {
     this.callback(event);
   }
+
   MemoState(name: string, data: any[]) {
     const memoizedData = this.MemoizedValue[name];
     const isUndefined = memoizedData === undefined;
