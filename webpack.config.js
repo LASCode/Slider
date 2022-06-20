@@ -9,12 +9,12 @@ let plugins;
 if (process.env.NODE_ENV === 'development') {
   entryPoints = {
     slider: './src/index.ts',
-    demo: './src/demoPage/demoPage.ts',
+    demo: './src/demoPage/index.ts',
   };
   plugins = [
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: path.resolve(__dirname, 'src/demoPage/demoPage.html'),
+      template: path.resolve(__dirname, 'src/demoPage/index.pug'),
       chunks: ['demo'],
     }),
   ];
@@ -27,12 +27,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 if (process.env.NODE_ENV === 'productionWithDemoPage') {
   entryPoints = {
-    demo: './src/demoPage/demoPage.ts',
+    demo: './src/demoPage/index.ts',
   };
   plugins = [
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: path.resolve(__dirname, 'src/demoPage/demoPage.html'),
+      template: path.resolve(__dirname, 'src/demoPage/index.pug'),
       chunks: ['demo'],
     }),
   ];
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'productionWithDemoPage') {
 module.exports = {
   entry: entryPoints,
   output: {
-    filename: 'js/[name].js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
@@ -52,29 +52,36 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader',
+        use: [
+          { loader: 'ts-loader' },
+        ],
       },
       {
         test: /\.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
         ],
       },
       {
         test: /\.scss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader', options: { sourceMap: true } },
           { loader: 'sass-loader', options: { sourceMap: true } },
         ],
+      },
+      {
+        test: /\.pug$/,
+        use: [{ loader: 'pug-loader', options: { pretty: true } }],
       },
     ],
   },
   plugins: [
     ...plugins,
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
+      filename: '[name].css',
     }),
     new ProvidePlugin({
       $: 'jquery',
