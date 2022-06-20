@@ -103,6 +103,9 @@ npm run test
 ```
 npm run lint
 ```
+---
+### UML диаграмма ###
+![UML диаграмма проекта](https://raw.githubusercontent.com/LASCode/Slider/master/UML/JqSliderDiagram.svg)
 ___
 ### Зависимости проекта ###
 * Jquery
