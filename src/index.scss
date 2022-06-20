@@ -35,10 +35,10 @@
   cursor: pointer;
   touch-action: none;
   &--horizontal{
-    margin-left: -5px;
+    transform: translateX(-50%);
   }
   &--vertical{
-    margin-top: -7px;
+    transform: translateY(-50%);
   }
   &--handled{
     z-index: 8;
