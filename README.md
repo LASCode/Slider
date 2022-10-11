@@ -42,23 +42,23 @@ $('.slider').JqSlider({type: 'init', options: {...options}})
 ```
 
 ### Опции ###
-Опции               | По умолчанию         | Тип       | Описание
-:-----              | :----                | :-----:   | :-----:
-max                 | 100                  | Number    | Максимальное значение слайдера
-min                 | 0                    | Number    | Минимальное значение слайдера
-from                | 0                    | Number    | Начальное значение левого ползунка
-to                  | 0                    | Number    | Начальное значение правого ползунка
-step                | 0                    | Number    | Шаг ползунка
-scaleStep           | 0                    | Number    | Шаг шкалы
-isRange             | false                | Boolean   | false - один ползунок, true - два ползунка
-horizontal          | false                | Boolean   | false - вертикальное расположение, true - горизонтальное расположение
-tips                | true                 | Boolean   | false - отключает отображение значений ползунков, true - включает
-handleSplit         | true                 | Boolean   | false - запрещает ползункам переходить через друг друга, true - разрещает.
-invert              | false                | Boolean   | false - отключает инверсию значений слайдера, true - включает.
-customId            | '  '                 | String    | Задает кастомный id слайдеру
-scaleStep           | '  '                 | String    | Задает кастомные классы слайдеру
-onChangeFunction    | (state) => state     | Function  | Калбек, вызываемый после любого изменения стейта
-tipsValueFunction   | (value) => \`${value}`     | Function  | Функция, позволяющая изменить выводящиеся в tips значения
+Опции               | По умолчанию           | Тип       | Описание
+:-----              |:-----------------------| :-----:   | :-----:
+max                 | 100                    | Number    | Максимальное значение слайдера
+min                 | 0                      | Number    | Минимальное значение слайдера
+from                | 0                      | Number    | Начальное значение левого ползунка
+to                  | 0                      | Number    | Начальное значение правого ползунка
+step                | 0                      | Number    | Шаг ползунка
+scaleStep           | 0                      | Number    | Шаг шкалы
+isRange             | false                  | Boolean   | false - один ползунок, true - два ползунка
+horizontal          | false                  | Boolean   | false - вертикальное расположение, true - горизонтальное расположение
+tips                | true                   | Boolean   | false - отключает отображение значений ползунков, true - включает
+handleSplit         | true                   | Boolean   | false - запрещает ползункам переходить через друг друга, true - разрещает.
+invert              | false                  | Boolean   | false - отключает инверсию значений слайдера, true - включает.
+customId            | '  '                   | String    | Задает кастомный id слайдеру
+scaleStep           | '  '                   | String    | Задает кастомные классы слайдеру
+onChangeFunction    | (state) => state       | Function  | Калбек, вызываемый после любого изменения стейта
+tipsValueFunction   | (value) => \`${value}` | Function  | Функция, позволяющая изменить выводящиеся в tips значения
 
 ### Api ###
 `$('.slider').jqSlider({type: 'init', options: *options*})` - Инициализация плагина. Создает слайдер и перезаписывает настройки по умолчанию. 
