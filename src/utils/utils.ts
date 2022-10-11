@@ -1,33 +1,36 @@
 import {
-  checkStepProps,
-  getFixedValueWithStepProps,
-  getNumAfterCommaProps, getScaleItemsArrayProps, invertValueProps,
-  percentToValueProps,
-  pixelToPercentProps,
-  pixelToValueProps, toFixedProps,
-  valueToPercentProps,
-  valueToPixelProps,
+  CheckStepProps,
+  GetFixedValueWithStepProps,
+  GetNumAfterCommaProps,
+  GetScaleItemsArrayProps,
+  InvertValueProps,
+  PercentToValueProps,
+  PixelToPercentProps,
+  PixelToValueProps,
+  ToFixedProps,
+  ValueToPercentProps,
+  ValueToPixelProps,
 } from '../Types/props';
 
-const valueToPercent = (props: valueToPercentProps): number => {
+const valueToPercent = (props: ValueToPercentProps): number => {
   const { value, max, min } = props;
   return (100 / (max - min)) * (value - min);
 };
-const valueToPixel = (props: valueToPixelProps): number => {
+const valueToPixel = (props: ValueToPixelProps): number => {
   const {
     size, max, min, value,
   } = props;
   return (size / 100) * ((100 / (max - min)) * (value - min));
 };
-const percentToValue = (props: percentToValueProps): number => {
+const percentToValue = (props: PercentToValueProps): number => {
   const { value, max, min } = props;
   return (((max - min) / 100) * value) + min;
 };
-const pixelToPercent = (props: pixelToPercentProps): number => {
+const pixelToPercent = (props: PixelToPercentProps): number => {
   const { size, value } = props;
   return (100 / size) * value;
 };
-const pixelToValue = (props: pixelToValueProps): number => {
+const pixelToValue = (props: PixelToValueProps): number => {
   const {
     value, size, max, min,
   } = props;
@@ -41,7 +44,7 @@ const pixelToValue = (props: pixelToValueProps): number => {
     min,
   });
 };
-const toFixed = (props: toFixedProps): number => {
+const toFixed = (props: ToFixedProps): number => {
   const { value, fixed } = props;
   let result: number = value;
   const re = new RegExp(`^-?\\d+(?:.\\d{0,${fixed || -1}})?`);
@@ -52,14 +55,14 @@ const toFixed = (props: toFixedProps): number => {
   return result;
   // return Number(value.toFixed(fixed));
 };
-const getNumAfterComma = (props: getNumAfterCommaProps): number => {
+const getNumAfterComma = (props: GetNumAfterCommaProps): number => {
   const { value } = props;
   if (Math.floor(value) !== value) {
     return value.toString().split('.')[1].length || 0;
   }
   return 0;
 };
-const getFixedValueWithStep = (props: getFixedValueWithStepProps): number => {
+const getFixedValueWithStep = (props: GetFixedValueWithStepProps): number => {
   const { value, step } = props;
   const numberCount = getNumAfterComma({
     value: step,
@@ -69,7 +72,7 @@ const getFixedValueWithStep = (props: getFixedValueWithStepProps): number => {
     fixed: numberCount,
   });
 };
-const getScaleItemsArray = (props: getScaleItemsArrayProps): number[] => {
+const getScaleItemsArray = (props: GetScaleItemsArrayProps): number[] => {
   const { max, min, step } = props;
   const result: number[] = [];
   if (step > 0 && max !== min) {
@@ -87,11 +90,11 @@ const getScaleItemsArray = (props: getScaleItemsArrayProps): number[] => {
     step,
   }));
 };
-const invertValue = (props: invertValueProps): number => {
+const invertValue = (props: InvertValueProps): number => {
   const { max, min, value } = props;
   return max - value + min;
 };
-const checkStep = (props: checkStepProps) => {
+const checkStep = (props: CheckStepProps) => {
   const { value, step } = props;
   const stepCopy = (step <= 0 ? 1 : step);
   return ((Math.round(value / stepCopy) * 100) / 100) * stepCopy;

@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let entryPoints;
 let plugins;
@@ -9,12 +10,12 @@ let plugins;
 if (process.env.NODE_ENV === 'development') {
   entryPoints = {
     slider: './src/index.ts',
-    demo: './src/demoPage/index.ts',
+    demo: './src/demo-page/index.ts',
   };
   plugins = [
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: path.resolve(__dirname, 'src/demoPage/index.pug'),
+      template: path.resolve(__dirname, 'src/demo-page/index.pug'),
       chunks: ['demo'],
     }),
   ];
@@ -27,12 +28,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 if (process.env.NODE_ENV === 'productionWithDemoPage') {
   entryPoints = {
-    demo: './src/demoPage/index.ts',
+    demo: './src/demo-page/index.ts',
   };
   plugins = [
     new HtmlWebpackPlugin({
       filename: './index.html',
-      template: path.resolve(__dirname, 'src/demoPage/index.pug'),
+      template: path.resolve(__dirname, 'src/demo-page/index.pug'),
       chunks: ['demo'],
     }),
   ];
@@ -88,5 +89,13 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/assets/favicon'),
+          to: path.resolve(__dirname, 'dist/favicon'),
+        },
+      ],
+    })
   ],
 };

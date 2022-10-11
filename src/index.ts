@@ -3,7 +3,7 @@
 /* eslint-disable func-names */
 
 import './index.scss';
-import { Presenter } from './Components/Presenter/Presenter';
+import { Presenter } from './components/Presenter/Presenter';
 import { SliderState, SliderStateModified, StateProperties } from './Types/state';
 
 interface init {

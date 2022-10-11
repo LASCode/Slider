@@ -1,83 +1,66 @@
 import { SliderState, SliderStateModified } from './state';
-import { viewCallbackFunction } from './ViewEventTypes';
+import { ViewCallbackFunction } from './view-event-types';
 
-interface presenterProps {
+export interface PresenterProps {
   rootNode: HTMLElement,
   initialState: SliderStateModified,
 }
-interface viewProps {
+export interface ViewProps {
  rootNode: HTMLElement,
- callback: viewCallbackFunction
+ callback: ViewCallbackFunction
 }
-interface modelProps {
+export interface ModelProps {
   state: SliderStateModified,
   callback: (state: SliderState) => SliderState;
 }
-interface valueToPercentProps {
+export interface ValueToPercentProps {
   max: number,
   min: number,
   value: number,
 }
-interface valueToPixelProps {
+export interface ValueToPixelProps {
   size: number,
   max: number,
   min: number,
   value: number,
 }
-interface pixelToPercentProps {
+export interface PixelToPercentProps {
   value: number,
   size: number,
 }
-interface pixelToValueProps {
+export interface PixelToValueProps {
   value: number,
   size: number,
   max: number,
   min: number,
 }
-interface percentToValueProps {
+export interface PercentToValueProps {
   value: number,
   max: number,
   min: number,
 }
-interface toFixedProps {
+export interface ToFixedProps {
   value: number,
   fixed: number,
 }
-interface getNumAfterCommaProps {
+export interface GetNumAfterCommaProps {
   value: number,
 }
-interface getFixedValueWithStepProps {
+export interface GetFixedValueWithStepProps {
   value: number,
   step: number,
 }
-interface getScaleItemsArrayProps {
+export interface GetScaleItemsArrayProps {
   max: number,
   min: number,
   step: number,
 }
-interface invertValueProps {
+export interface InvertValueProps {
   max: number,
   min: number,
   value: number,
 }
-interface checkStepProps {
+export interface CheckStepProps {
   value: number,
   step: number,
 }
-
-export {
-  presenterProps,
-  viewProps,
-  modelProps,
-  valueToPixelProps,
-  valueToPercentProps,
-  pixelToPercentProps,
-  percentToValueProps,
-  pixelToValueProps,
-  toFixedProps,
-  getNumAfterCommaProps,
-  getFixedValueWithStepProps,
-  getScaleItemsArrayProps,
-  invertValueProps,
-  checkStepProps,
-};

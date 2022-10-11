@@ -1,4 +1,4 @@
-interface SliderState {
+export interface SliderState {
   max: number,
   min: number,
   from: number,
@@ -16,10 +16,10 @@ interface SliderState {
   tipsValueFunction: (value: number) => string;
 }
 
-type SliderStateModified = Partial<SliderState>
-type StateProperties = keyof SliderState
+export type SliderStateModified = Partial<SliderState>
+export type StateProperties = keyof SliderState
 
-interface viewHandleState {
+export interface ViewHandleState {
   px: number,
   percent: number,
   total: number,
@@ -27,7 +27,7 @@ interface viewHandleState {
   pressedNow: boolean,
   pressedLast: boolean,
 }
-interface viewSliderState {
+export interface ViewSliderState {
   max: number,
   min: number,
   horizontal: boolean,
@@ -35,22 +35,18 @@ interface viewSliderState {
   invert: boolean,
   tips: boolean,
   handleSplit: boolean,
-  from: viewHandleState,
-  to: viewHandleState,
+  from: ViewHandleState,
+  to: ViewHandleState,
   scaleItemsArray: number[],
   customClass: string,
   customId: string,
   tipsValueFunction: SliderState['tipsValueFunction'],
 }
 
-interface presenterTempData {
+export interface PresenterTempData {
   handlePressedLast: string | null,
   handleSelected: string | null,
   handleMovingNow: string | null,
   handlePressedNow: string | null,
   handleValue: number,
 }
-
-export {
-  SliderState, SliderStateModified, StateProperties, viewSliderState, presenterTempData,
-};
